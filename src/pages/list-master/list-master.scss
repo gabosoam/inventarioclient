@@ -1,0 +1,39 @@
+page-list-master {
+body {
+    cursor: url('http://ionicframework.com/img/finger.png'), auto;
+}
+
+.header .col {
+    background-color:lightgrey;
+}
+
+.col {
+ 
+    border-bottom-style: none;
+    border-right-style: none;
+}
+
+.col:last-child {
+ 
+}
+
+.row:last-child .col {
+  
+}
+
+#rounded {
+    width: 100%;
+ 
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 10px;
+    margin-bottom: 10px;  
+    
+}
+
+#container {
+    width: 300px; 
+    margin-left:auto; 
+    margin-right: auto; 
+}
+}
