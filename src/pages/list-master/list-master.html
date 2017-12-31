@@ -52,11 +52,11 @@
 
 
 
-  <hr>
+
   <ion-grid>
 
     <ion-row>
-      <ion-col col-8>
+      <ion-col col-10>
         <ion-grid>
           <ion-row>
             <ion-col col-4></ion-col>
@@ -71,7 +71,7 @@
             <ion-row>
               <ion-col col-4>
                 <ion-item>
-                  <ion-label>Seleccione el tipo de salida</ion-label>
+                  <ion-label>Tipo de salida</ion-label>
                   <ion-select [(ngModel)]="cliente" (ionChange)="cambiarCliente()">
                     <ion-option selected value="1">Venta</ion-option>
                     <ion-option value="2">Consumo interno</ion-option>
@@ -127,20 +127,24 @@
         </div>
       </ion-col>
 
-      <ion-col col-4>
-    
+      <ion-col col-2>
 
+        <ion-card>
+          <ion-item>
+            <ion-icon name="logo-usd" item-start large></ion-icon>
+            <h1>{{total}}</h1>
 
- 
-
+          </ion-item>
 
           <ion-item>
-            <button ion-button icon-left block item-end large >
-              <ion-icon name="navigate"></ion-icon>
-              cobrar
-              
+
+            <button ion-button icon-left block large clear item-end (click)="cobrar()">
+              <ion-icon name="ios-exit-outline"></ion-icon>
+              Cobrar
             </button>
           </ion-item>
+        </ion-card>
+
 
       </ion-col>
     </ion-row>

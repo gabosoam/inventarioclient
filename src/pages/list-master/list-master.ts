@@ -6,6 +6,7 @@ import { Items } from '../../providers/providers';
 
 import { AlertController } from 'ionic-angular';
 
+
 @IonicPage()
 @Component({
   selector: 'page-list-master',
@@ -103,12 +104,13 @@ export class ListMasterPage {
   calcularTotal(){
 
     var detalle = this.detalles;
-    var aux = 0
+    var aux = 0.00;
     for (let index = 0; index < detalle.length; index++) {
-      aux+= detalle[index].total;
+      aux+= parseFloat(detalle[index].total);
       
     }
-    this.total = aux;
+    this.total = 0.00;
+    this.total = aux.toFixed(2);
   }
 
   saludar() {
@@ -222,5 +224,15 @@ export class ListMasterPage {
     this.navCtrl.push('ItemDetailPage', {
       item: item
     });
+  }
+
+  cobrar() {
+    let addModal = this.modalCtrl.create('FacturaCobrarPage', {total: this.total});
+    addModal.onDidDismiss(item => {
+      if (item) {
+        this.items.add(item);
+      }
+    })
+    addModal.present();
   }
 }
