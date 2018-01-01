@@ -34,5 +34,19 @@
 
   </ion-list>
 
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12>
+          <button  ion-button color="default" (click)="cobrar('comprobante')">Cobrar e imprimir comprobante</button>
+      </ion-col>
+      <ion-col col-12>
+          <button  ion-button color="secondary" (click)="cobrar('sincomprobante')">Cobrar sin imprimir comprobante</button>
+      </ion-col>
+      <ion-col col-12>
+          <button  ion-button color="danger" (click)="cobrar('cancelar')">Cancelar comprobante</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
 
 </ion-content>

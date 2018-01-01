@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 
 /**
  * Generated class for the FacturaCobrarPage page.
@@ -19,7 +19,7 @@ export class FacturaCobrarPage {
   recibido: any;
   vuelto: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,public viewCtrl: ViewController, public navParams: NavParams) {
    this.total = navParams.get('total');
   }
 
@@ -28,8 +28,13 @@ export class FacturaCobrarPage {
   }
   calcular(){
     console.log(this.recibido)
-    this.vuelto = this.recibido-this.total;
+    this.vuelto = (this.recibido-this.total).toFixed(2);
     
+  }
+
+  cobrar(accion) {
+   
+    this.viewCtrl.dismiss(accion);
   }
 
 }

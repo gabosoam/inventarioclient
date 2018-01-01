@@ -14,6 +14,8 @@ import { Settings } from '../providers/providers';
 import { User } from '../providers/providers';
 import { Api } from '../providers/providers';
 import { MyApp } from './app.component';
+import { Printer, PrintOptions } from '@ionic-native/printer';
+
 
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
@@ -60,6 +62,7 @@ export function provideSettings(storage: Storage) {
   providers: [
     Api,
     Items,
+    Printer,
     User,
     Camera,
     SplashScreen,

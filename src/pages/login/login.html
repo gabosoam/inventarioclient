@@ -1,39 +1,49 @@
 <ion-header>
 
-  <ion-navbar>
+  <!-- <ion-navbar>
     <ion-title>{{ 'LOGIN_TITLE' | translate }}</ion-title>
-  </ion-navbar>
+  </ion-navbar> -->
 
 </ion-header>
 
 
 <ion-content>
-  <form (submit)="doLogin()">
-    <ion-list>
 
-      <ion-item>
-        <ion-label fixed>Nombre de usuario</ion-label>
-        <ion-input type="text" [(ngModel)]="account.nombre" name="email"></ion-input>
-      </ion-item>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-4>
 
-      <!--
-      Want to use a Username instead of an Email? Here you go:
+      </ion-col>
 
-      <ion-item>
-        <ion-label floating>{{ 'USERNAME' | translate }}</ion-label>
-        <ion-input type="text" [(ngModel)]="account.username" name="username"></ion-input>
-      </ion-item>
-      -->
+      <ion-col col-4>
+          <form (submit)="doLogin()">
+              <ion-list>
+                  <br><br><br>
+                <img src="assets/img/logo.jpg" alt="">
+                <br><br><br>
+                <ion-item>
+                  <ion-label floating>Nombre de usuario</ion-label>
+                  <ion-input type="text" [(ngModel)]="account.nombre" name="email"></ion-input>
+                </ion-item>
+          
+          
+                <ion-item>
+                  <ion-label floating>Contraseña</ion-label>
+                  <ion-input type="password" [(ngModel)]="account.contrasena" name="password"></ion-input>
+                </ion-item>
+          
+                <div padding>
+                  <button ion-button color="primary" block>{{ 'LOGIN_BUTTON' | translate }}</button>
+                </div>
+          
+              </ion-list>
+            </form>
+      </ion-col>
 
-      <ion-item>
-        <ion-label fixed>Contraseña</ion-label>
-        <ion-input type="password" [(ngModel)]="account.contrasena" name="password"></ion-input>
-      </ion-item>
+      <ion-col col-4>
 
-      <div padding>
-        <button ion-button color="primary" block>{{ 'LOGIN_BUTTON' | translate }}</button>
-      </div>
-
-    </ion-list>
-  </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
 </ion-content>
