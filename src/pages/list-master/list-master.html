@@ -17,7 +17,7 @@
   <ion-grid>
 
     <ion-row>
-      <ion-col col-10>
+      <ion-col col-8>
         <ion-grid>
           <ion-row>
             <ion-col col-4></ion-col>
@@ -66,10 +66,12 @@
 
           </ion-grid>
         </ion-grid>
+      
         <div id="print-section" class="row header">
           <div class="col">Cantidad</div>
           <div class="col">Código</div>
           <div class="col">Producto</div>
+          <div class="col">Unidad</div>
           <div class="col">P. Unitario</div>
           <div class="col">P. Total</div>
           <div class="col"></div>
@@ -78,39 +80,63 @@
           <div class="col">{{detalle.cantidad}}</div>
           <div class="col">{{detalle.codigo}}</div>
           <div class="col">{{detalle.producto}}</div>
+          <div class="col">{{detalle.unidad}}</div>
+          
           <div class="col">{{detalle.unitario}}</div>
           <div class="col">{{detalle.total}}</div>
           <div class="col">
-            <button ion-button icon-only color="danger" outline>
+            <button ion-button icon-only color="danger" outline (click)="borrarDetalle(detalle.id)">
               <ion-icon name="trash"></ion-icon>
             </button>
           </div>
         </div>
       </ion-col>
-   
 
-      <ion-col col-2>
+
+      <ion-col col-4>
 
         <ion-card>
           <ion-item>
-            <ion-icon name="logo-usd" item-start large></ion-icon>
-            <h1>{{total}}</h1>
 
+
+            <h1>Total: ${{total}}</h1>
+
+          </ion-item>
+          <hr>
+
+          <ion-item>
+            <ion-label>Recibido: $</ion-label>
+            <ion-input large type="number" [(ngModel)]="recibido" (change)="calcular()"></ion-input>
+          </ion-item>
+          <hr>
+          <ion-item>
+            <ion-label>Vuelto: $</ion-label>
+            <ion-input type="number" value="0.00" [(ngModel)]="vuelto"></ion-input>
           </ion-item>
 
           <ion-item>
 
-            <button ion-button icon-left block large clear item-end (click)="cobrar()">
-              <ion-icon name="ios-exit-outline"></ion-icon>
-              Cobrar
+            <button ion-button icon-left large  clear item-end (click)="comprobante()">
+              
+              Cobrar e imprimir comprobante
             </button>
           </ion-item>
+
+          <ion-item>
+
+            <button ion-button icon-left large  clear item-end (click)="sincomprobante()">
+            
+              Cobrar sin imprimir comprobante
+            </button>
+          </ion-item>
+
         </ion-card>
 
 
       </ion-col>
     </ion-row>
   </ion-grid>
+
 
 
 
@@ -127,18 +153,81 @@
 
 </ion-content>
 
+<div style="visibility: hidden" id="boleta" style=" border: 1; font-size: 8; border-color: black">
+
+
+  <h1>COMERCIAL HERAS</h1>
+  <h2>Ventas al por mayor y menor</h2>
+  <h2>
+    <strong>Comprebante:</strong> # {{factura.id}}</h2>
+  <h2>Fecha: {{fecha}}</h2>
+
+
+  <hr>
+
+
+
+
+  <table>
+    <tr>
+      <th>
+        <h1>Cant.</h1>
+      </th>
+      <th>
+        <h1>Producto</h1>
+      </th>
+      <th>
+        <h1>Unit.</h1>
+      </th>
+      <th>
+        <h1>Total</h1>
+      </th>
+    </tr>
+
+    <tr *ngFor="let detalle of detalles">
+      <td>
+        <h2>{{detalle.cantidad}}</h2>
+      </td>
+      <td>
+        <h2>{{detalle.producto}}</h2>
+      </td>
+      <td>
+        <h2>{{detalle.unitario}}</h2>
+      </td>
+      <td>
+        <h2>{{detalle.total}}</h2>
+      </td>
+
+
+    </tr>
+
+  </table>
+  <hr>
+
+
+  <div text-left>
+    <h1>TOTAL: {{total}}</h1>
+  </div>
+  <hr>
+  <h2>***GRACIAS POR SU COMPRA***</h2>
+  <h4>Este comprobante no tiene validez tributaria</h4>
+
+
+
+</div>
+
+
 <script>
 
   function saludar() {
     alert(saludar);
   }
-  function PrintElem(elem)
-{
+  function PrintElem(elem) {
     var mywindow = window.open('', 'PRINT', 'height=400,width=600');
 
-    mywindow.document.write('<html><head><title>' + document.title  + '</title>');
+    mywindow.document.write('<html><head><title>' + document.title + '</title>');
     mywindow.document.write('</head><body >');
-    mywindow.document.write('<h1>' + document.title  + '</h1>');
+    mywindow.document.write('<h1>' + document.title + '</h1>');
     mywindow.document.write(document.getElementById(elem).innerHTML);
     mywindow.document.write('</body></html>');
 
@@ -149,6 +238,6 @@
     mywindow.close();
 
     return true;
-}
+  }
 
 </script>

@@ -5,7 +5,7 @@ import { Item } from '../../models/item';
 import { Items } from '../../providers/providers';
 
 import { AlertController } from 'ionic-angular';
-import { MainPage } from '../pages';
+import { Tab1Root } from '../pages';
 
 import { Printer, PrintOptions } from '@ionic-native/printer';
 
@@ -19,6 +19,7 @@ export class ListMasterPage {
   currentItems: Item[];
 
   factura: any;
+  fecha: any;
 
   cliente: any;
 
@@ -27,21 +28,31 @@ export class ListMasterPage {
   detalles: any;
   total: any;
 
+  recibido: any;
+  vuelto: any;
+
   isReadyToSave: boolean;
 
   form: FormGroup;
+  form2: FormGroup;
 
   constructor(
-    public navCtrl: NavController, 
-    formBuilder: FormBuilder, 
-    public items: Items, 
-    public modalCtrl: ModalController, 
-    public alertCtrl: AlertController, 
+    public navCtrl: NavController,
+    formBuilder: FormBuilder,
+    public items: Items,
+    public modalCtrl: ModalController,
+    public alertCtrl: AlertController,
     private printer: Printer) {
     this.factura = { id: 0 };
 
     this.items.crearFactura().subscribe((res) => {
       this.factura = this.items.factura;
+
+      var fecha = new Date(this.factura.createdAt);
+      this.fecha = fecha.getDay()+"/"+fecha.getMonth()+"/"+fecha.getFullYear();
+      
+      console.log(this.fecha)
+      
 
     });
     this.currentItems = this.items.query();
@@ -55,6 +66,9 @@ export class ListMasterPage {
     });
 
     this.obtenerDetalles();
+    
+  
+    
 
     //this.print()
   }
@@ -64,7 +78,7 @@ export class ListMasterPage {
    */
   ionViewDidLoad() {
   }
-  iniciar(){
+  iniciar() {
     //this.printer.isAvailable().then(this.onSuccess, this.onError);
     console.log(this.printer.isAvailable());
     // let options: PrintOptions = {
@@ -73,18 +87,36 @@ export class ListMasterPage {
     //      landscape: true,
     //      grayscale: true
     //    };
-    
+
     // this.printer.print('<h1>hello world</h1>', options).then(this.onSuccess, this.onError);
+
+  }
+
+  borrarDetalle(detalle){
+    this.items.borrarProductoDetalle(detalle).subscribe(data=>{
+      this.obtenerDetalles();
+    });
+  }
+
+  onSuccess() {
+   // console.log('bien');
+  }
+
+   openOther(){
+    //I called Api using service
+     let scope=this;
+     setTimeout(function() { scope.print(); }, 1000);
+  }
+
+  calcular(){
+   
+    this.vuelto = (this.recibido-this.total).toFixed(2);
     
   }
 
-  onSuccess(){
-    console.log('bien');
-  }
-
-  print(): void {
+  public print() {
     let printContents, popupWin;
-    printContents = document.getElementById('print-section').innerHTML;
+    printContents = document.getElementById('boleta').innerHTML;
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
     popupWin.document.open();
     popupWin.document.write(`
@@ -99,10 +131,10 @@ export class ListMasterPage {
       </html>`
     );
     popupWin.document.close();
-}
+  }
 
-  onError(){
-    console.log('mal');
+  onError() {
+   // console.log('mal');
   }
 
   /**
@@ -126,14 +158,14 @@ export class ListMasterPage {
   }
 
   cambiarCliente() {
-    console.log(this.cliente)
+    //console.log(this.cliente)
 
     this.items.modificarCliente(this.cliente, this.factura.id)
   }
 
   obtenerDetalles() {
     this.items.obtenerDetalles(this.factura.id).subscribe(res => {
-      console.log(res)
+    
       this.detalles = res;
       this.calcularTotal();
     });
@@ -155,8 +187,8 @@ export class ListMasterPage {
   saludar() {
 
 
-
     if (!this.form.valid) { return; }
+
 
     let seq = this.items.obtenerProducto(this.form.value);
 
@@ -176,7 +208,7 @@ export class ListMasterPage {
             } else {
               let alert = this.alertCtrl.create({
                 title: 'Error!',
-                subTitle: JSON.stringify('No hay papa : ' + this.form.value.name),
+                subTitle: JSON.stringify('No hay stock : ' + this.form.value.name),
                 buttons: ['OK']
               });
               alert.present();
@@ -186,7 +218,7 @@ export class ListMasterPage {
           case 'granel':
 
             let prompt = this.alertCtrl.create({
-              title: 'Venta en granel',
+              title: 'Venta en granel - ' + res[0].nombre,
               message: "Ingrese la cantidad igual o inferior a: " + res[0].stock,
               inputs: [
                 {
@@ -195,9 +227,6 @@ export class ListMasterPage {
                   type: 'hidden',
                   value: res[0].id,
                   disabled: true,
-
-
-
                 },
                 {
                   name: 'cantidad',
@@ -213,13 +242,20 @@ export class ListMasterPage {
                 {
                   text: 'Cancelar',
                   handler: data => {
-                    console.log('Cancel clicked');
+                   // console.log('Cancel clicked');
                   }
                 },
                 {
                   text: 'Vender',
                   handler: data => {
-                    console.log(data);
+                    var precio = data.cantidad*res[0].precio;
+                   
+                    this.items.generarIngreso(this.factura.id, data.cantidad, res[0].id, res[0].precio).subscribe(resp => {
+                      this.obtenerDetalles();
+                      this.cbxProducto = '';
+
+
+                    });
                   }
                 }
               ]
@@ -265,12 +301,34 @@ export class ListMasterPage {
     });
   }
   comprobante() {
-    this.print()
-   }
+    if(this.total==0){
+      let alert = this.alertCtrl.create({
+        title: 'Alerta!',
+        subTitle: JSON.stringify('No se puede imprimir un comprobante sin detalle '),
+        buttons: ['OK']
+      });
+      alert.present();
+    }else{
+      this.print();
+      this.navCtrl.push(Tab1Root);
+    }
+    
+  }
 
   sincomprobante() {
-    this.navCtrl.push(MainPage);
-   }
+    if(this.total==0){
+      let alert = this.alertCtrl.create({
+        title: 'Alerta!',
+        subTitle: JSON.stringify('No se puede imprimir un comprobante sin detalle '),
+        buttons: ['OK']
+      });
+      alert.present();
+    }else{
+      this.navCtrl.push(Tab1Root);
+    }
+    
+    
+  }
 
   cancelar() { }
 
@@ -280,7 +338,8 @@ export class ListMasterPage {
       if (accion) {
         switch (accion) {
           case 'comprobante':
-            this.comprobante();
+         
+            //this.comprobante();
             break;
 
           case 'sincomprobante':

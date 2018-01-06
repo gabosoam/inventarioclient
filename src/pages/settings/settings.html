@@ -1,45 +1,80 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>{{ pageTitle }}</ion-title>
+    <ion-title>Inicio</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 <ion-content>
 
-  <form [formGroup]="form" *ngIf="settingsReady">
-    <ion-list *ngIf="page == 'main'">
-      <ion-item>
-        <ion-label>{{ 'SETTINGS_OPTION1' | translate }}</ion-label>
-        <ion-toggle formControlName="option1"></ion-toggle>
-      </ion-item>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-3></ion-col>
+      <ion-col col-6>
+        <ion-card>
+          <form id="container" *ngIf="form" [formGroup]="form" (ngSubmit)="saludar()">
+            <ion-input [(ngModel)]="cbxProducto" autofocus type="text" placeholder="Buscar un producto" formControlName="name"></ion-input>
+          </form>
+        </ion-card>
+      </ion-col>
+      <ion-col col-3></ion-col>
+    </ion-row>
+    <ion-list>
 
-      <ion-item>
-        <ion-label>{{ 'SETTINGS_OPTION2' | translate }}</ion-label>
-        <ion-input formControlName="option2"></ion-input>
-      </ion-item>
 
-      <ion-item>
-        <ion-label>{{ 'SETTINGS_OPTION3' | translate }}</ion-label>
-        <ion-select formControlName="option3">
-          <ion-option value="1" checked="true">1</ion-option>
-          <ion-option value="2">2</ion-option>
-          <ion-option value="3">3</ion-option>
-        </ion-select>
-      </ion-item>
-
-      <button ion-item [navPush]="subSettings" [navParams]="profileSettings">
-        {{ 'SETTINGS_PROFILE_BUTTON' | translate }}
-      </button>
     </ion-list>
 
-    <ion-list *ngIf="page == 'profile'">
+
+
+    <ion-list>
+       
       <ion-item>
-        <ion-label>{{ 'SETTINGS_OPTION4' | translate }}</ion-label>
-        <ion-input formControlName="option4"></ion-input>
+        <ion-row>
+          <ion-col col-2> <strong>Codigo</strong></ion-col>
+          <ion-col col-5><strong>Producto</strong> </ion-col>
+          <ion-col col-1><strong>Unidad</strong></ion-col>
+          <ion-col col-1><strong>Precio</strong></ion-col>
+          <ion-col col-1><strong>Stock</strong></ion-col>
+          <ion-col col-2><strong>Acciones</strong></ion-col>
+        </ion-row>
       </ion-item>
+
+      <ion-row *ngFor="let producto of productos">
+        <ion-item>
+          <ion-row>
+
+
+            <ion-col col-2> {{producto.codigo}}</ion-col>
+            <ion-col col-5>{{producto.nombre}}</ion-col>
+            <ion-col col-1>{{producto.unidad}}</ion-col>
+            <ion-col col-1>${{producto.precio}}</ion-col>
+            <ion-col col-1>{{producto.stock}}</ion-col>
+            <ion-col col-2>
+                <button ion-button round icon-only small>
+                    <ion-icon name="md-add"></ion-icon>
+                </button>
+                <button ion-button small icon-only color="secondary" round>
+                    <ion-icon name="md-create"></ion-icon>
+                </button>
+                <button ion-button small icon-only color="danger" round>
+                    <ion-icon name="md-trash"></ion-icon>
+                </button>
+            </ion-col>
+          </ion-row>
+        </ion-item>
+      </ion-row>
+
+
+
+
+
     </ion-list>
-  </form>
+
+
+
+  </ion-grid>
+
+
 
 </ion-content>

@@ -79,9 +79,35 @@ export class Items {
     });
   }
 
-  obtenerProducto(codigo){
 
-    let seq = this.api.get('producto?codigo='+codigo.name ).share();
+  borrarProductoDetalle(detalle) {
+    let seq = this.api.delete('detalle/' + detalle).share();
+    seq.subscribe((res: any) => {
+      // If the API returned a successful response, mark the user as logged in
+      if (res.status == 'success') {
+        console.log(res);
+      } else {
+      }
+    }, err => {
+      console.error('ERROR', err);
+    });
+
+    return seq;
+
+  }
+
+  buscarProductoNombre(nombre) {
+    let seq = this.api.get('producto?where={"nombre":{"contains":"'+nombre+'"}}').share();
+    
+
+    return seq;
+
+  }
+
+  obtenerMarcas() {
+
+
+    let seq = this.api.get('marca?sort=nombre').share();
 
     seq.subscribe((res: any) => {
       // If the API returned a successful response, mark the user as logged in
@@ -97,9 +123,45 @@ export class Items {
 
   }
 
-  obtenerDetalles(factura){
+  obtenerCategorias() {
 
-    let seq = this.api.get('detalle/obtenerdetalle?factura='+factura ).share();
+    let seq = this.api.get('categoria?sort=nombre').share();
+
+    seq.subscribe((res: any) => {
+      // If the API returned a successful response, mark the user as logged in
+      if (res.status == 'success') {
+        console.log(res);
+      } else {
+      }
+    }, err => {
+      console.error('ERROR', err);
+    });
+
+    return seq;
+
+  }
+
+  obtenerProducto(codigo) {
+
+    let seq = this.api.get('producto?codigo=' + codigo.name).share();
+
+    seq.subscribe((res: any) => {
+      // If the API returned a successful response, mark the user as logged in
+      if (res.status == 'success') {
+        console.log(res);
+      } else {
+      }
+    }, err => {
+      console.error('ERROR', err);
+    });
+
+    return seq;
+
+  }
+
+  obtenerDetalles(factura) {
+
+    let seq = this.api.get('detalle/obtenerdetalle?factura=' + factura).share();
 
     seq.subscribe((res: any) => {
       console.log('yes yes');
@@ -117,15 +179,15 @@ export class Items {
 
   }
 
-  crearFactura(){
-    let seq = this.api.post('factura',null).share();
-    
+  crearFactura() {
+    let seq = this.api.post('factura', null).share();
+
     seq.subscribe((res: any) => {
       this.ingfactura(res);
       // If the API returned a successful response, mark the user as logged in
       if (res.status == 'success') {
-        
-        
+
+
       } else {
       }
     }, err => {
@@ -135,46 +197,64 @@ export class Items {
     return seq;
   }
 
-  modificarCliente(cliente, factura){
-    let seq = this.api.put('factura/'+factura,{cliente: cliente}).share();
-    
-    seq.subscribe((res: any) => {
-      this.ingfactura(res);
-      // If the API returned a successful response, mark the user as logged in
-      if (res.status == 'success') {
-        
-        
-      } else {
-      }
-    }, err => {
-      console.error('ERROR', err);
-    });
-
+  crearProducto(producto) {
+    let seq = this.api.post('producto', producto).share();
     return seq;
   }
 
-  generarIngreso(factura,cantidad,producto, precio){
-    let seq = this.api.post('detalle/',{factura: factura,cantidad: cantidad,producto: producto, precio:precio }).share();
-    
-    seq.subscribe((res: any) => {
-      this.ingfactura(res);
-      // If the API returned a successful response, mark the user as logged in
-      if (res.status == 'success') {
-        
-        
-      } else {
-      }
-    }, err => {
-      console.error('ERROR', err);
-    });
-
+  modificarProducto(id,body) {
+    let seq = this.api.put('producto/'+id, body).share();
     return seq;
   }
 
-  ingfactura(factura){
- 
-    this.factura = factura;
+  buscarProducto(codigo) {
+    let seq = this.api.get('producto?codigo='+codigo).share();
+
    
+
+    return seq;
+  }
+
+  modificarCliente(cliente, factura) {
+    let seq = this.api.put('factura/' + factura, { cliente: cliente }).share();
+
+    seq.subscribe((res: any) => {
+      this.ingfactura(res);
+      // If the API returned a successful response, mark the user as logged in
+      if (res.status == 'success') {
+
+
+      } else {
+      }
+    }, err => {
+      console.error('ERROR', err);
+    });
+
+    return seq;
+  }
+
+  generarIngreso(factura, cantidad, producto, precio) {
+    let seq = this.api.post('detalle/', { factura: factura, cantidad: cantidad, producto: producto, precio: precio }).share();
+
+    seq.subscribe((res: any) => {
+      this.ingfactura(res);
+      // If the API returned a successful response, mark the user as logged in
+      if (res.status == 'success') {
+
+
+      } else {
+      }
+    }, err => {
+      console.error('ERROR', err);
+    });
+
+    return seq;
+  }
+
+  ingfactura(factura) {
+
+    this.factura = factura;
+
   }
 
   add(item: Item) {
