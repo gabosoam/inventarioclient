@@ -1,7 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
-import { IonicPage, NavController, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, ViewController, NavParams } from 'ionic-angular';
+import { Items } from '../../providers/providers';
 
 @IonicPage()
 @Component({
@@ -13,15 +14,35 @@ export class ItemCreatePage {
 
   isReadyToSave: boolean;
 
-  item: any;
+  producto: any;
+  marcas: any;
+  categorias: any;
 
   form: FormGroup;
 
-  constructor(public navCtrl: NavController, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera) {
+  constructor(public navCtrl: NavController,
+    navParams: NavParams,
+    public viewCtrl: ViewController,
+    formBuilder: FormBuilder,
+    public camera: Camera,
+    public items: Items,
+  ) {
+
+    this.obtenerMarcas();
+    this.obtenerCategorias();
+
+    this.producto = navParams.get('producto');
     this.form = formBuilder.group({
-      profilePic: [''],
-      name: ['', Validators.required],
-      about: ['']
+      id: [this.producto.id, Validators.required],
+      codigo: [this.producto.codigo, Validators.required],
+      nombre: [this.producto.nombre, Validators.required],
+      precio: [this.producto.precio, Validators.required],
+      estado: [this.producto.estado, Validators.required],
+      tipo: [this.producto.tipo, Validators.required],
+      marca: [this.producto.marca.id, Validators.required],
+      categoria: [this.producto.categoria.id, Validators.required],
+      minimo: [this.producto.minimo, Validators.required],
+      unidad: [this.producto.unidad, Validators.required],
     });
 
     // Watch the form for changes, and
@@ -32,6 +53,18 @@ export class ItemCreatePage {
 
   ionViewDidLoad() {
 
+  }
+
+  obtenerMarcas() {
+    this.items.obtenerMarcas().subscribe(marcas => {
+      this.marcas = marcas;
+    })
+  }
+
+  obtenerCategorias() {
+    this.items.obtenerCategorias().subscribe(categorias => {
+      this.categorias = categorias;
+    })
   }
 
   getPicture() {

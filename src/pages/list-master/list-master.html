@@ -17,47 +17,108 @@
   <ion-grid>
 
     <ion-row>
-      <ion-col col-8>
+      <ion-col col-12>
+
         <ion-grid>
-          <ion-row>
-            <ion-col col-4></ion-col>
-            <ion-col col-4>
 
-
-            </ion-col>
-
-          </ion-row>
 
           <ion-grid>
             <ion-row>
-              <ion-col col-4>
-                <ion-item>
-                  <ion-label>Tipo de salida</ion-label>
-                  <ion-select [(ngModel)]="cliente" (ionChange)="cambiarCliente()">
-                    <ion-option selected value="1">Venta</ion-option>
-                    <ion-option value="2">Consumo interno</ion-option>
-                  </ion-select>
-                </ion-item>
+              <ion-col col-12>
+                <ion-grid>
+
+
+                  <ion-row>
+                    <ion-col col-12>
+                      <table style="width: 100%; padding: 10px; border-radius: 25px" border="1">
+
+                        <tr>
+
+
+                          <td colspan="6" style="padding: 5px; text-align: center">
+                            <h1>Total: ${{total}}</h1>
+
+                          </td>
+
+                          <td colspan="1" style="padding: 5px; text-align: center">
+                            <button ion-button icon-only round (click)="comprobante()">
+                              <ion-icon name="ios-print-outline"></ion-icon>
+
+                            </button>
+
+                            <button ion-button icon-only round color="secondary" (click)="sincomprobante()">
+                              <ion-icon name="ios-remove-circle-outline"></ion-icon>
+
+                            </button>
+                          </td>
+
+                        </tr>
+                        <tr>
+                          <td colspan="2">
+                            <ion-item>
+
+                              <ion-select [(ngModel)]="cliente" (ionChange)="cambiarCliente()">
+                                <ion-option selected value="1">Venta</ion-option>
+                                <ion-option value="2">Consumo interno</ion-option>
+                              </ion-select>
+                            </ion-item>
+                          </td>
+                          <td colspan="4">
+                            <form id="container2" *ngIf="form" [formGroup]="form" (ngSubmit)="saludar()">
+                              <ion-item id="rounded">
+                                <ion-label fixed>Código</ion-label>
+                                <ion-input [(ngModel)]="cbxProducto" autofocus type="text" placeholder="Ingresar el código de barras del producto" formControlName="name"></ion-input>
+                              </ion-item>
+
+                            </form>
+                          </td>
+                          <td colspan="1" style="max-width: 3cm">
+                         
+                              <ion-item>
+                                <ion-label>Recibido: $</ion-label>
+                                <ion-input large type="number" [(ngModel)]="recibido" (change)="calcular()"></ion-input>
+                              </ion-item>
+                              <ion-item>
+                                <ion-label>Vuelto: $</ion-label>
+                                <ion-input type="number" value="0.00" [(ngModel)]="vuelto"></ion-input>
+                              </ion-item>
+
+
+                          
+                          </td>
+                        </tr>
+                        <tr>
+                          <th style="padding: 5px; text-align: center">Cantidad</th>
+                          <th style="padding: 5px; text-align: center">Código</th>
+                          <th style="padding: 5px; text-align: center">Producto</th>
+                          <th style="padding: 5px; text-align: center">Unidad</th>
+                          <th style="padding: 5px; text-align: center">Unitario</th>
+                          <th style="padding: 5px; text-align: center">Total</th>
+                          <th style="padding: 5px; text-align: center">Acciones</th>
+                        </tr>
+                        <tr *ngFor="let detalle of detalles">
+                          <td style="padding: 5px; text-align: center">{{detalle.cantidad}}</td>
+                          <td style="padding: 5px; text-align: center">{{detalle.rawcodigo}}</td>
+                          <td style="padding: 5px; text-align: center">{{detalle.producto}}</td>
+                          <td style="padding: 5px; text-align: center">{{detalle.unidad}}</td>
+                          <td style="padding: 5px; text-align: center">${{detalle.unitario}}</td>
+                          <td style="padding: 5px; text-align: center">${{detalle.total}}</td>
+                          <td style="padding: 5px; text-align: center">
+
+                            <button ion-button small icon-only color="danger" (click)="borrarDetalle(detalle.id)" round>
+                              <ion-icon name="md-trash"></ion-icon>
+                            </button>
+                          </td>
+                        </tr>
+
+
+                      </table>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
               </ion-col>
 
-              <ion-col col-6>
-                <form id="container" *ngIf="form" [formGroup]="form" (ngSubmit)="saludar()">
-                  <ion-item id="rounded">
-                    <ion-input [(ngModel)]="cbxProducto" autofocus type="text" placeholder="Código del producto" formControlName="name"></ion-input>
-                  </ion-item>
 
-                </form>
-
-              </ion-col>
-
-              <ion-col col-2>
-                <button ion-button icon-only (click)="saludar()">
-                  <ion-icon name="add"></ion-icon>
-                </button>
-                <button ion-button icon-only>
-                  <ion-icon name="search"></ion-icon>
-                </button>
-              </ion-col>
 
 
 
@@ -66,74 +127,16 @@
 
           </ion-grid>
         </ion-grid>
-      
-        <div id="print-section" class="row header">
-          <div class="col">Cantidad</div>
-          <div class="col">Código</div>
-          <div class="col">Producto</div>
-          <div class="col">Unidad</div>
-          <div class="col">P. Unitario</div>
-          <div class="col">P. Total</div>
-          <div class="col"></div>
-        </div>
-        <div class="row" *ngFor="let detalle of detalles">
-          <div class="col">{{detalle.cantidad}}</div>
-          <div class="col">{{detalle.codigo}}</div>
-          <div class="col">{{detalle.producto}}</div>
-          <div class="col">{{detalle.unidad}}</div>
-          
-          <div class="col">{{detalle.unitario}}</div>
-          <div class="col">{{detalle.total}}</div>
-          <div class="col">
-            <button ion-button icon-only color="danger" outline (click)="borrarDetalle(detalle.id)">
-              <ion-icon name="trash"></ion-icon>
-            </button>
-          </div>
-        </div>
-      </ion-col>
 
 
-      <ion-col col-4>
-
-        <ion-card>
-          <ion-item>
 
 
-            <h1>Total: ${{total}}</h1>
-
-          </ion-item>
-          <hr>
-
-          <ion-item>
-            <ion-label>Recibido: $</ion-label>
-            <ion-input large type="number" [(ngModel)]="recibido" (change)="calcular()"></ion-input>
-          </ion-item>
-          <hr>
-          <ion-item>
-            <ion-label>Vuelto: $</ion-label>
-            <ion-input type="number" value="0.00" [(ngModel)]="vuelto"></ion-input>
-          </ion-item>
-
-          <ion-item>
-
-            <button ion-button icon-left large  clear item-end (click)="comprobante()">
-              
-              Cobrar e imprimir comprobante
-            </button>
-          </ion-item>
-
-          <ion-item>
-
-            <button ion-button icon-left large  clear item-end (click)="sincomprobante()">
-            
-              Cobrar sin imprimir comprobante
-            </button>
-          </ion-item>
-
-        </ion-card>
 
 
       </ion-col>
+
+
+
     </ion-row>
   </ion-grid>
 
@@ -168,49 +171,51 @@
 
 
 
-  <table>
+  <table style="width: 100%">
     <tr>
-      <th>
+      <th style="text-align: center; padding: 2px">
         <h1>Cant.</h1>
       </th>
-      <th>
+      <th style="text-align: center; padding: 2px">
         <h1>Producto</h1>
       </th>
-      <th>
+      <th style="text-align: center; padding: 2px">
         <h1>Unit.</h1>
       </th>
-      <th>
+      <th style="text-align: center; padding: 2px">
         <h1>Total</h1>
       </th>
+
     </tr>
 
     <tr *ngFor="let detalle of detalles">
-      <td>
+      <td style="text-align: center; padding: 2px">
         <h2>{{detalle.cantidad}}</h2>
       </td>
-      <td>
+      <td style="text-align: left; padding: 2px;">
         <h2>{{detalle.producto}}</h2>
       </td>
-      <td>
-        <h2>{{detalle.unitario}}</h2>
+      <td style="text-align: center; padding: 2px">
+        <h2>${{detalle.unitario}}</h2>
       </td>
-      <td>
-        <h2>{{detalle.total}}</h2>
+      <td style="text-align: center; padding: 2px">
+        <h2>${{detalle.total}}</h2>
       </td>
 
 
     </tr>
+
 
   </table>
   <hr>
 
 
-  <div text-left>
-    <h1>TOTAL: {{total}}</h1>
+  <div style="text-align: right">
+    <h1>TOTAL: ${{total}}</h1>
   </div>
   <hr>
-  <h2>***GRACIAS POR SU COMPRA***</h2>
-  <h4>Este comprobante no tiene validez tributaria</h4>
+  <h2 style="text-align: center">***ES UN PLACER SERVIRLE***</h2>
+  <h4 style="text-align: center">Este comprobante no tiene validez tributaria</h4>
 
 
 

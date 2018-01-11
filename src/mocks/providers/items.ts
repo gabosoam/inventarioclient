@@ -97,7 +97,15 @@ export class Items {
   }
 
   buscarProductoNombre(nombre) {
-    let seq = this.api.get('producto?where={"nombre":{"contains":"'+nombre+'"}}').share();
+    let seq = this.api.get('producto?where={"nombre":{"contains":"'+nombre+'"},"estado":{"contains":"1"}}').share();
+    
+
+    return seq;
+
+  }
+
+  buscarProductoCodigo(codigo) {
+    let seq = this.api.get('producto?where={"codigo":{"contains":"'+codigo+'"},"estado":{"contains":"1"}}').share();
     
 
     return seq;
@@ -107,7 +115,7 @@ export class Items {
   obtenerMarcas() {
 
 
-    let seq = this.api.get('marca?sort=nombre').share();
+    let seq = this.api.get('marca?sort=nombre&limit=300').share();
 
     seq.subscribe((res: any) => {
       // If the API returned a successful response, mark the user as logged in
@@ -125,7 +133,7 @@ export class Items {
 
   obtenerCategorias() {
 
-    let seq = this.api.get('categoria?sort=nombre').share();
+    let seq = this.api.get('categoria?sort=nombre&limit=100').share();
 
     seq.subscribe((res: any) => {
       // If the API returned a successful response, mark the user as logged in
@@ -158,6 +166,8 @@ export class Items {
     return seq;
 
   }
+
+  
 
   obtenerDetalles(factura) {
 
@@ -204,6 +214,11 @@ export class Items {
 
   modificarProducto(id,body) {
     let seq = this.api.put('producto/'+id, body).share();
+    return seq;
+  }
+
+  modificarStock(id,stock) {
+    let seq = this.api.get('producto/modificarstock?id='+id+'&stock='+stock).share();
     return seq;
   }
 

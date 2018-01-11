@@ -20,7 +20,7 @@ export class TabsPage {
 
   tab1Title = "Venta 1";
   tab2Title = "Venta 2";
-  tab3Title = "Productos";
+  tab3Title = "Crear producto";
   tab4Title = "Inicio";
 
   constructor(public navCtrl: NavController, public translateService: TranslateService) {

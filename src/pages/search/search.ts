@@ -107,8 +107,6 @@ export class SearchPage {
       seq.subscribe((res: any) => {
 
        
-        
-        
           let alert = this.alertCtrl.create({
             title: 'Éxito!',
             subTitle: 'Se modificó el producto satisfactoriamente',

@@ -45,16 +45,7 @@ export class ListMasterPage {
     private printer: Printer) {
     this.factura = { id: 0 };
 
-    this.items.crearFactura().subscribe((res) => {
-      this.factura = this.items.factura;
-
-      var fecha = new Date(this.factura.createdAt);
-      this.fecha = fecha.getDay()+"/"+fecha.getMonth()+"/"+fecha.getFullYear();
-      
-      console.log(this.fecha)
-      
-
-    });
+ 
     this.currentItems = this.items.query();
 
     this.form = formBuilder.group({
@@ -64,13 +55,37 @@ export class ListMasterPage {
     this.form.valueChanges.subscribe((v) => {
       this.isReadyToSave = this.form.valid;
     });
-
-    this.obtenerDetalles();
+this.refrescar();
+    
     
   
     
 
     //this.print()
+  }
+
+  refrescar(){
+    var data = [];
+
+    this.detalles = data;
+    this.items.crearFactura().subscribe((res) => {
+      this.factura = this.items.factura;
+      this.items.obtenerDetalles(this.factura.id).subscribe(res => {
+    
+        this.detalles = res;
+        this.calcularTotal();
+      });
+
+      var fecha = new Date(this.factura.createdAt);
+      this.fecha = fecha.getDay()+"/"+fecha.getMonth()+"/"+fecha.getFullYear();
+      
+      console.log(this.fecha)
+      
+
+    });
+
+  
+
   }
 
   /**
@@ -169,15 +184,19 @@ export class ListMasterPage {
       this.detalles = res;
       this.calcularTotal();
     });
+    
 
   }
 
   calcularTotal() {
 
+  
+
     var detalle = this.detalles;
+    
     var aux = 0.00;
     for (let index = 0; index < detalle.length; index++) {
-      aux += parseFloat(detalle[index].total);
+      aux += parseFloat(detalle[index].rawtotal);
 
     }
     this.total = 0.00;
@@ -310,7 +329,12 @@ export class ListMasterPage {
       alert.present();
     }else{
       this.print();
-      this.navCtrl.push(Tab1Root);
+      this.refrescar();
+      // this.navCtrl.push(Tab1Root);
+      // this.navCtrl.remove
+    
+     
+      
     }
     
   }
@@ -324,7 +348,7 @@ export class ListMasterPage {
       });
       alert.present();
     }else{
-      this.navCtrl.push(Tab1Root);
+      this.refrescar();
     }
     
     
@@ -332,26 +356,35 @@ export class ListMasterPage {
 
   cancelar() { }
 
+  updateList(ev) {
+    console.log(ev.target.value);
+  }
+
   cobrar() {
-    let addModal = this.modalCtrl.create('FacturaCobrarPage', { total: this.total });
-    addModal.onDidDismiss(accion => {
-      if (accion) {
-        switch (accion) {
-          case 'comprobante':
-         
-            //this.comprobante();
-            break;
 
-          case 'sincomprobante':
+    let confirm = this.alertCtrl.create({
+      title: 'Imprimir comprobante?',
+      buttons: [
+        {
+          text: 'Imprimir comprobante',
+          handler: () => {
+            this.comprobante();
+          }
+        },
+        {
+          text: 'Sin comprobante',
+          handler: () => {
             this.sincomprobante();
-            break;
-
-          case 'cancelar':
-            this.cancelar();
-            break;
+          }
+        },
+        {
+          text: 'Cancelar',
+          handler: () => {
+            console.log('Agree clicked');
+          }
         }
-      }
-    })
-    addModal.present();
+      ]
+    });
+    confirm.present();
   }
 }
