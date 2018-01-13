@@ -12,6 +12,13 @@ page-settings {
     .col:last-child {
      
     }
+
+    .scroll {
+        -webkit-user-select: text;
+        -moz-user-select: text;
+        -ms-user-select: text;
+        user-select: text;
+      }
     
     .row:last-child .col {
       

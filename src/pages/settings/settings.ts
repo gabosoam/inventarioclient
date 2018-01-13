@@ -137,7 +137,7 @@ export class SettingsPage {
 
   agregarStock(producto) {
     let prompt = this.alertCtrl.create({
-      title: 'Agregar stock',
+      title: producto.nombre,
       message: "Ingresa la cantidad ",
       inputs: [
         {

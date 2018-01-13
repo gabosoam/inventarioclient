@@ -2,44 +2,36 @@
 
   <ion-navbar>
     <ion-title>Inicio</ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="addItem()">
-        <ion-icon name="add"></ion-icon>
-      </button>
-    </ion-buttons>
+
+
   </ion-navbar>
 
 </ion-header>
 
 
 
-<ion-content>
+<ion-content overflow-scroll = " true ">
+
+
 
   <ion-grid>
     <ion-row>
-      <ion-col col-3>
+      <ion-col col-2 >
         <form id="container" *ngIf="formCodigo" [formGroup]="formCodigo" (ngSubmit)="buscarCodigo()">
-          <ion-list>
-            <ion-item>
-              <ion-label floating>Buscar por código</ion-label>
-              <ion-input [(ngModel)]="cbxCodigo" autofocus type="text" formControlName="name"></ion-input>
-            </ion-item>
-          </ion-list>
-
+          <ion-searchbar style="width: 100%" autofocus formControlName="name" placeholder="Buscar por código">
+          </ion-searchbar>
         </form>
+
+
+
+
       </ion-col>
       <ion-col col-6>
 
         <form id="container" *ngIf="form" [formGroup]="form" (ngSubmit)="saludar()">
-          <ion-list>
-            <ion-item>
-              <ion-label floating>Buscar por nombre de producto</ion-label>
-              <ion-input [(ngModel)]="cbxProducto" autofocus type="text" formControlName="name"></ion-input>
-            </ion-item>
-          </ion-list>
-
+          <ion-searchbar autofocus formControlName="name" placeholder="Buscar por nombre">
+          </ion-searchbar>
         </form>
-
       </ion-col>
       <ion-col col-3></ion-col>
     </ion-row>
@@ -48,68 +40,40 @@
 
     </ion-list>
 
+    <table style="width: 100%; padding: 10px; border-radius: 25px" border="1">
+   
+      <tr>
+        
+        <th style="padding: 5px; text-align: center">Código</th>
+        <th style="padding: 5px; text-align: center">Producto</th>
+        <th style="padding: 5px; text-align: center">Unidad</th>
+        <th style="padding: 5px; text-align: center">Precio</th>
+        <th style="padding: 5px; text-align: center">Stock</th>
+        <th style="padding: 5px; text-align: center">Mínimo</th>
+        <th style="padding: 5px; text-align: center">Acciones</th>
+      </tr>
+      <tr *ngFor="let producto of productos">
+        <td overflow-scroll = " true " style="padding: 5px; text-align: center">{{producto.codigo}}</td>
+        <td style="padding: 5px; text-align: center">{{producto.nombre}}</td>
+        <td style="padding: 5px; text-align: center">{{producto.unidad}}</td>
+        <td style="padding: 5px; text-align: center">${{producto.precio}}</td>
+        <td style="padding: 5px; text-align: center">{{producto.stock}}</td>
+        <td style="padding: 5px; text-align: center">{{producto.minimo}}</td>
+        <td style="padding: 5px; text-align: center">
+          <button ion-button round icon-only small (click)="agregarStock(producto)">
+            <ion-icon name="md-add"></ion-icon>
+          </button>
+          <button ion-button small icon-only color="secondary" (click)="modificarItem(producto)" round>
+            <ion-icon name="md-create"></ion-icon>
+          </button>
+          <button ion-button small icon-only color="danger" (click)="desactivarItem(producto)" round>
+            <ion-icon name="md-trash"></ion-icon>
+          </button>
+        </td>
+      </tr>
 
 
-    <ion-list>
-
-      <ion-item>
-        <ion-row>
-          <ion-col col-2>
-            <strong>Codigo</strong>
-          </ion-col>
-          <ion-col col-4>
-            <strong>Producto</strong>
-          </ion-col>
-          <ion-col col-1>
-            <strong>Unidad</strong>
-          </ion-col>
-          <ion-col col-1>
-            <strong>Precio</strong>
-          </ion-col>
-          <ion-col col-1>
-            <strong>Stock</strong>
-          </ion-col>
-          <ion-col col-1>
-            <strong>Mínimo</strong>
-          </ion-col>
-          <ion-col col-2>
-            <strong>Acciones</strong>
-          </ion-col>
-        </ion-row>
-      </ion-item>
-
-      <ion-row *ngFor="let producto of productos">
-
-        <ion-item>
-          <ion-row>
-
-
-            <ion-col col-2> {{producto.codigo}}</ion-col>
-            <ion-col col-4>{{producto.nombre}}</ion-col>
-            <ion-col col-1>{{producto.unidad}}</ion-col>
-            <ion-col col-1>${{producto.precio}}</ion-col>
-            <ion-col col-1>{{producto.stock}}</ion-col>
-            <ion-col col-1>{{producto.minimo}}</ion-col>
-            <ion-col col-2>
-              <button ion-button round icon-only small (click)="agregarStock(producto)">
-                <ion-icon name="md-add" ></ion-icon>
-              </button>
-              <button ion-button small icon-only color="secondary" (click)="modificarItem(producto)" round>
-                <ion-icon name="md-create"></ion-icon>
-              </button>
-              <button ion-button small icon-only color="danger" (click)="desactivarItem(producto)" round>
-                <ion-icon name="md-trash"></ion-icon>
-              </button>
-            </ion-col>
-          </ion-row>
-        </ion-item>
-      </ion-row>
-
-
-
-
-
-    </ion-list>
+    </table>
 
 
 

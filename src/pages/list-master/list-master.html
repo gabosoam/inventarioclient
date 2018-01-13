@@ -64,27 +64,40 @@
                             </ion-item>
                           </td>
                           <td colspan="4">
-                            <form id="container2" *ngIf="form" [formGroup]="form" (ngSubmit)="saludar()">
-                              <ion-item id="rounded">
-                                <ion-label fixed>Código</ion-label>
-                                <ion-input [(ngModel)]="cbxProducto" autofocus type="text" placeholder="Ingresar el código de barras del producto" formControlName="name"></ion-input>
-                              </ion-item>
+                            <ion-grid>
+                              <ion-row>
+                                <ion-col col-11>
+                                  <form id="container2" *ngIf="form" [formGroup]="form" (ngSubmit)="saludar()">
+                                    <ion-searchbar style="width: 100%" autofocus formControlName="name" placeholder="Ingresar código de barras">
+                                    </ion-searchbar>
+                                  </form>
 
-                            </form>
+
+                                </ion-col>
+                                <ion-col col-1>
+                                  <button ion-button icon-only round (click)="buscar()">
+                                    <ion-icon name="md-search"></ion-icon>
+
+                                  </button>
+
+                                </ion-col>
+                              </ion-row>
+                            </ion-grid>
+
                           </td>
                           <td colspan="1" style="max-width: 3cm">
-                         
-                              <ion-item>
-                                <ion-label>Recibido: $</ion-label>
-                                <ion-input large type="number" [(ngModel)]="recibido" (change)="calcular()"></ion-input>
-                              </ion-item>
-                              <ion-item>
-                                <ion-label>Vuelto: $</ion-label>
-                                <ion-input type="number" value="0.00" [(ngModel)]="vuelto"></ion-input>
-                              </ion-item>
+
+                            <ion-item>
+                              <ion-label>Recibido: $</ion-label>
+                              <ion-input large type="number" [(ngModel)]="recibido" (change)="calcular()"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                              <ion-label>Vuelto: $</ion-label>
+                              <ion-input type="number" value="0.00" [(ngModel)]="vuelto"></ion-input>
+                            </ion-item>
 
 
-                          
+
                           </td>
                         </tr>
                         <tr>

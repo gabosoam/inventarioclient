@@ -18,6 +18,8 @@ import { Printer, PrintOptions } from '@ionic-native/printer';
 export class ListMasterPage {
   currentItems: Item[];
 
+  cantidad: any;
+
   factura: any;
   fecha: any;
 
@@ -45,7 +47,7 @@ export class ListMasterPage {
     private printer: Printer) {
     this.factura = { id: 0 };
 
- 
+
     this.currentItems = this.items.query();
 
     this.form = formBuilder.group({
@@ -55,36 +57,36 @@ export class ListMasterPage {
     this.form.valueChanges.subscribe((v) => {
       this.isReadyToSave = this.form.valid;
     });
-this.refrescar();
-    
-    
-  
-    
+    this.refrescar();
+
+
+
+
 
     //this.print()
   }
 
-  refrescar(){
+  refrescar() {
     var data = [];
 
     this.detalles = data;
     this.items.crearFactura().subscribe((res) => {
       this.factura = this.items.factura;
       this.items.obtenerDetalles(this.factura.id).subscribe(res => {
-    
+
         this.detalles = res;
         this.calcularTotal();
       });
 
       var fecha = new Date(this.factura.createdAt);
-      this.fecha = fecha.getDay()+"/"+fecha.getMonth()+"/"+fecha.getFullYear();
-      
+      this.fecha = fecha.getDay() + "/" + fecha.getMonth() + "/" + fecha.getFullYear();
+
       console.log(this.fecha)
-      
+
 
     });
 
-  
+
 
   }
 
@@ -107,27 +109,29 @@ this.refrescar();
 
   }
 
-  borrarDetalle(detalle){
-    this.items.borrarProductoDetalle(detalle).subscribe(data=>{
+  borrarDetalle(detalle) {
+    this.items.borrarProductoDetalle(detalle).subscribe(data => {
       this.obtenerDetalles();
     });
   }
 
   onSuccess() {
-   // console.log('bien');
+    // console.log('bien');
   }
 
-   openOther(){
+  openOther() {
     //I called Api using service
-     let scope=this;
-     setTimeout(function() { scope.print(); }, 1000);
+    let scope = this;
+    setTimeout(function () { scope.print(); }, 1000);
   }
 
-  calcular(){
-   
-    this.vuelto = (this.recibido-this.total).toFixed(2);
-    
+  calcular() {
+
+    this.vuelto = (this.recibido - this.total).toFixed(2);
+
   }
+
+ 
 
   public print() {
     let printContents, popupWin;
@@ -149,7 +153,7 @@ this.refrescar();
   }
 
   onError() {
-   // console.log('mal');
+    // console.log('mal');
   }
 
   /**
@@ -180,20 +184,20 @@ this.refrescar();
 
   obtenerDetalles() {
     this.items.obtenerDetalles(this.factura.id).subscribe(res => {
-    
+
       this.detalles = res;
       this.calcularTotal();
     });
-    
+
 
   }
 
   calcularTotal() {
 
-  
+
 
     var detalle = this.detalles;
-    
+
     var aux = 0.00;
     for (let index = 0; index < detalle.length; index++) {
       aux += parseFloat(detalle[index].rawtotal);
@@ -261,14 +265,14 @@ this.refrescar();
                 {
                   text: 'Cancelar',
                   handler: data => {
-                   // console.log('Cancel clicked');
+                    // console.log('Cancel clicked');
                   }
                 },
                 {
                   text: 'Vender',
                   handler: data => {
-                    var precio = data.cantidad*res[0].precio;
-                   
+                    var precio = data.cantidad * res[0].precio;
+
                     this.items.generarIngreso(this.factura.id, data.cantidad, res[0].id, res[0].precio).subscribe(resp => {
                       this.obtenerDetalles();
                       this.cbxProducto = '';
@@ -320,44 +324,154 @@ this.refrescar();
     });
   }
   comprobante() {
-    if(this.total==0){
+    if (this.total == 0) {
       let alert = this.alertCtrl.create({
         title: 'Alerta!',
         subTitle: JSON.stringify('No se puede imprimir un comprobante sin detalle '),
         buttons: ['OK']
       });
       alert.present();
-    }else{
+    } else {
       this.print();
       this.refrescar();
       // this.navCtrl.push(Tab1Root);
       // this.navCtrl.remove
-    
-     
-      
+
+
+
     }
-    
+
   }
 
   sincomprobante() {
-    if(this.total==0){
+    if (this.total == 0) {
       let alert = this.alertCtrl.create({
         title: 'Alerta!',
         subTitle: JSON.stringify('No se puede imprimir un comprobante sin detalle '),
         buttons: ['OK']
       });
       alert.present();
-    }else{
+    } else {
       this.refrescar();
     }
-    
-    
+
+
   }
 
   cancelar() { }
 
   updateList(ev) {
     console.log(ev.target.value);
+  }
+
+  buscar() {
+    //  let addModal = this.modalCtrl.create('ItemCreatePage');
+    let addModal = this.modalCtrl.create('BuscarproductoPage');
+    addModal.onDidDismiss(producto => {
+      if (producto) {
+        switch (producto.tipo) {
+          case 'unidad':
+          let prompt2 = this.alertCtrl.create({
+            title: producto.nombre,
+            message: "Ingrese la cantidad igual o inferior a: " + producto.stock,
+            inputs: [
+              {
+                name: 'producto',
+                placeholder: 'Producto',
+                type: 'hidden',
+                value: producto.id,
+                disabled: true,
+              },
+              {
+                name: 'cantidad',
+                placeholder: 'Cantidad',
+                type: 'number',
+                min: 0.1,
+                max: producto.stock,
+
+
+              },
+            ],
+            buttons: [
+              {
+                text: 'Cancelar',
+                handler: data => {
+                  // console.log('Cancel clicked');
+                }
+              },
+              {
+                text: 'Vender',
+                handler: data => {
+                  alert(JSON.stringify(data))
+                  var precio = data.cantidad * producto.precio;
+
+                  this.items.generarIngreso(this.factura.id, data.cantidad, producto.id, producto.precio).subscribe(resp => {
+                    this.obtenerDetalles();
+                    this.cbxProducto = '';
+
+
+                  });
+                }
+              }
+            ]
+          });
+          prompt2.present();
+            break;
+
+          case 'granel':
+
+            let prompt = this.alertCtrl.create({
+              title: 'Venta en granel - ' + producto.nombre,
+              message: "Ingrese la cantidad igual o inferior a: " + producto.stock,
+              inputs: [
+                {
+                  name: 'producto',
+                  placeholder: 'Producto',
+                  type: 'hidden',
+                  value: producto.id,
+                  disabled: true,
+                },
+                {
+                  name: 'cantidad',
+                  placeholder: 'Cantidad',
+                  type: 'number',
+                  min: 0.1,
+                  max: producto.stock,
+
+
+                },
+              ],
+              buttons: [
+                {
+                  text: 'Cancelar',
+                  handler: data => {
+                    // console.log('Cancel clicked');
+                  }
+                },
+                {
+                  text: 'Vender',
+                  handler: data => {
+                    var precio = data.cantidad * producto.precio;
+
+                    this.items.generarIngreso(this.factura.id, data.cantidad, producto.id, producto.precio).subscribe(resp => {
+                      this.obtenerDetalles();
+                      this.cbxProducto = '';
+
+
+                    });
+                  }
+                }
+              ]
+            });
+            prompt.present();
+
+            break;
+        }
+
+      
+      }
+    })
+    addModal.present();
   }
 
   cobrar() {

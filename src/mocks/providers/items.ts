@@ -131,6 +131,26 @@ export class Items {
 
   }
 
+
+  obtenerGranel() {
+
+
+    let seq = this.api.get('marca?sort=nombre&limit=300').share();
+
+    seq.subscribe((res: any) => {
+      // If the API returned a successful response, mark the user as logged in
+      if (res.status == 'success') {
+        console.log(res);
+      } else {
+      }
+    }, err => {
+      console.error('ERROR', err);
+    });
+
+    return seq;
+
+  }
+
   obtenerCategorias() {
 
     let seq = this.api.get('categoria?sort=nombre&limit=100').share();
