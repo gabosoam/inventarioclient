@@ -268,6 +268,34 @@ export class Items {
     return seq;
   }
 
+  modificarPrecio(precio) {
+    let seq = this.api.put('precio/'+precio.id,precio).share();
+
+
+    return seq;
+  }
+
+  agregarPrecio(precio) {
+    let seq = this.api.post('precio',precio).share();
+
+
+    return seq;
+  }
+
+  eliminarPrecio(precio) {
+    let seq = this.api.delete('precio/'+precio,).share();
+
+
+    return seq;
+  }
+
+  obtenerPrecios(producto) {
+    let seq = this.api.get('precio?producto='+producto).share();
+
+
+    return seq;
+  }
+
   generarIngreso(factura, cantidad, producto, precio) {
     let seq = this.api.post('detalle/', { factura: factura, cantidad: cantidad, producto: producto, precio: precio }).share();
 

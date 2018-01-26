@@ -135,49 +135,86 @@ export class SettingsPage {
     addModal.present();
   }
 
-  agregarStock(producto) {
-    let prompt = this.alertCtrl.create({
-      title: producto.nombre,
-      message: "Ingresa la cantidad ",
-      inputs: [
-        {
-          name: 'stock',
-          placeholder: 'Stock',
-          type: 'number',
-          min: 0
-        },
-        {
-          name: 'id',
-          value: producto.id,
-          type: 'hidden',
-          
-          min: 0
-        },
-      ],
-      buttons: [
-        {
-          text: 'Cancelar',
-          handler: data => {
-           
-          }
-        },
-        {
-          text: 'Guardar',
-          handler: data => {
-            let seq = this.items.modificarStock(data.id, data.stock);
+  listarPrecios(producto) {
+    //  let addModal = this.modalCtrl.create('ItemCreatePage');
+    let addModal = this.modalCtrl.create('PrecioPage', { producto: producto });
+    addModal.onDidDismiss(producto => {
+      if (producto) {
+        let seq = this.items.modificarProducto(producto.id, producto);
 
-            seq.subscribe(res=>{
-              if (this.buscador == "nombre") {
-                this.saludar();
-              } else if (this.buscador == "codigo") {
-                this.buscarCodigo();
-              }
-            })
+        seq.subscribe(res => {
+
+          if (this.buscador == "nombre") {
+            this.saludar();
+          } else if (this.buscador == "codigo") {
+            this.buscarCodigo();
           }
-        }
-      ]
-    });
-    prompt.present();
+        })
+      }
+    })
+    addModal.present();
+  }
+
+  agregarStock(producto) {
+    //  let addModal = this.modalCtrl.create('ItemCreatePage');
+    let addModal = this.modalCtrl.create('StockPage', { producto: producto });
+    addModal.onDidDismiss(data => {
+      if (data) {
+        let seq = this.items.modificarStock(data.id, data.stock);
+
+        seq.subscribe(res => {
+          if (this.buscador == "nombre") {
+            this.saludar();
+          } else if (this.buscador == "codigo") {
+            this.buscarCodigo();
+          }
+        })
+
+      }
+    })
+    addModal.present();
+    // let prompt = this.alertCtrl.create({
+    //   title: producto.nombre,
+    //   message: "Ingresa la cantidad ",
+    //   inputs: [
+    //     {
+    //       name: 'stock',
+    //       placeholder: 'Stock',
+    //       type: 'number',
+    //       min: 0
+    //     },
+    //     {
+    //       name: 'id',
+    //       value: producto.id,
+    //       type: 'hidden',
+
+    //       min: 0
+    //     },
+    //   ],
+    //   buttons: [
+    //     {
+    //       text: 'Cancelar',
+    //       handler: data => {
+
+    //       }
+    //     },
+    //     {
+    //       text: 'Guardar',
+    //       handler: data => {
+    //         let seq = this.items.modificarStock(data.id, data.stock);
+
+    //         seq.subscribe(res=>{
+    //           if (this.buscador == "nombre") {
+    //             this.saludar();
+    //           } else if (this.buscador == "codigo") {
+    //             this.buscarCodigo();
+    //           }
+    //         })
+    //       }
+    //     }
+    //   ]
+    // });
+    // prompt.present();
 
   }
 
