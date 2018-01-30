@@ -39,7 +39,7 @@ export class StockPage {
 
   gestionar(){
     var total = this.formCodigo.value.cantidad/this.formCodigo.value.unidad;
-
+   
 
     if (this.formCodigo.valid) {
       this.viewCtrl.dismiss({id: this.prod.id, stock: total});
@@ -59,6 +59,7 @@ export class StockPage {
 
     let seq = this.service.obtenerPrecios(this.prod.id);
     seq.subscribe((res) => {
+      console.log(res)
       this.items = res;
     })
   }

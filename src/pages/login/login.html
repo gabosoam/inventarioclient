@@ -1,15 +1,62 @@
-<ion-header>
-
-  <!-- <ion-navbar>
-    <ion-title>{{ 'LOGIN_TITLE' | translate }}</ion-title>
-  </ion-navbar> -->
-
-</ion-header>
 
 
-<ion-content>
-
+<ion-content padding class="animated fadeIn login auth-page">
+  
   <ion-grid>
+    <ion-row>
+      <ion-col col-4></ion-col>
+      <ion-col col-4>
+          <div class="login-content">
+
+              <!-- Logo -->
+              <div padding-horizontal text-center class="animated fadeInDown">
+                <div class="logo"></div>
+                <h2 ion-text class="text-primary">
+                  <strong>Sistema de inventario</strong> 
+                </h2>
+              </div>
+          
+              <!-- Login form -->
+              <form (submit)="doLogin()">
+                <ion-item>
+                  <ion-label floating>
+                    <ion-icon name="md-contact" item-start class="text-primary"></ion-icon>
+                    Nombre de usuario
+                  </ion-label>
+                  <ion-input type="text" [(ngModel)]="account.nombre" name="email"></ion-input>
+                </ion-item>
+          
+                <ion-item>
+                  <ion-label floating>
+                    <ion-icon name="lock" item-start class="text-primary"></ion-icon>
+                    Contraseña
+                  </ion-label>
+                  <ion-input type="password" [(ngModel)]="account.password" name="password"></ion-input>
+                </ion-item>
+              </form>
+          
+             
+              <div><br>
+                <button ion-button icon-start block color="dark" tappable (click)="doLogin()">
+                  <ion-icon name="log-in"></ion-icon>
+                  Iniciar sesión
+                </button>
+          
+               
+           
+          
+              </div>
+          
+          
+          
+            </div>
+      </ion-col>
+      <ion-col col-4></ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+  <!-- <ion-grid>
     <ion-row>
       <ion-col col-4>
 
@@ -19,7 +66,7 @@
           <form (submit)="doLogin()">
               <ion-list>
                   <br><br><br>
-                <img src="assets/img/logo.jpg" alt="">
+                <img src="assets/img/logo0.jpg" alt="">
                 <br><br><br>
                 <ion-item>
                   <ion-label floating>Nombre de usuario</ion-label>
@@ -44,6 +91,6 @@
 
       </ion-col>
     </ion-row>
-  </ion-grid>
+  </ion-grid> -->
   
 </ion-content>

@@ -10,13 +10,13 @@
 
 
 
-<ion-content overflow-scroll = " true ">
+<ion-content overflow-scroll=" true ">
 
 
 
   <ion-grid>
     <ion-row>
-      <ion-col col-2 >
+      <ion-col col-2>
         <form id="container" [formGroup]="formCodigo" (ngSubmit)="buscarCodigo()">
           <ion-searchbar style="width: 100%" autofocus formControlName="name" placeholder="Buscar por código">
           </ion-searchbar>
@@ -37,32 +37,30 @@
         <button ion-button (click)="crearProducto()">Crear un producto</button>
       </ion-col>
     </ion-row>
-    <ion-list>
 
-
-    </ion-list>
 
     <table style="width: 100%; padding: 10px; border-radius: 25px" border="1">
-   
+
       <tr>
-        
+
         <th style="padding: 5px; text-align: center">Código</th>
         <th style="padding: 5px; text-align: center">Producto</th>
         <th style="padding: 5px; text-align: center">Stock</th>
- 
+
         <th style="padding: 5px; text-align: center">Precio</th>
-        
+
         <th style="padding: 5px; text-align: center">Mínimo</th>
         <th style="padding: 5px; text-align: center">Acciones</th>
       </tr>
       <tr *ngFor="let producto of productos">
-        <td overflow-scroll = " true " style="padding: 5px; text-align: center">{{producto.codigo}}</td>
+        <td overflow-scroll=" true " style="padding: 5px; text-align: center">{{producto.codigo}}</td>
         <td style="padding: 5px; text-align: center">{{producto.nombre}}</td>
         <td style="padding: 5px; text-align: center">
-            <button ion-button clear>{{producto.stock}} ({{producto.unidad.nombre}})</button> </td>
-      
+          <button ion-button clear>{{producto.stock}} ({{producto.unidad.nombre}})</button>
+        </td>
+
         <td style="padding: 5px; text-align: center">${{producto.precio}}</td>
-       
+
         <td style="padding: 5px; text-align: center">{{producto.minimo}}</td>
         <td style="padding: 5px; text-align: center">
           <button ion-button round icon-only small (click)="agregarStock(producto)">

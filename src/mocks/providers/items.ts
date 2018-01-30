@@ -105,7 +105,7 @@ export class Items {
   }
 
   buscarProductoCodigo(codigo) {
-    let seq = this.api.get('producto?where={"codigo":{"contains":"'+codigo+'"}}').share();
+    let seq = this.api.get('producto?where={"codigo":{"contains":"'+codigo+'"},"estado":{"contains":"1"}}').share();
     
 
     return seq;
@@ -243,7 +243,7 @@ export class Items {
   }
 
   buscarProducto(codigo) {
-    let seq = this.api.get('producto?codigo='+codigo).share();
+    let seq = this.api.get('lista?codigo='+codigo).share();
 
    
 
@@ -292,6 +292,7 @@ export class Items {
   obtenerPrecios(producto) {
     let seq = this.api.get('precio?producto='+producto).share();
 
+    
 
     return seq;
   }

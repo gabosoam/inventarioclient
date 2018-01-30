@@ -17,6 +17,7 @@ export class ItemCreatePage {
   producto: any;
   marcas: any;
   categorias: any;
+  unidades: any
 
   form: FormGroup;
 
@@ -30,6 +31,7 @@ export class ItemCreatePage {
 
     this.obtenerMarcas();
     this.obtenerCategorias();
+    this.obtenerUnidades();
 
     this.producto = navParams.get('producto');
     this.form = formBuilder.group({
@@ -37,12 +39,10 @@ export class ItemCreatePage {
       codigo: [this.producto.codigo, Validators.required],
       nombre: [this.producto.nombre, Validators.required],
       precio: [this.producto.precio, Validators.required],
-      estado: [this.producto.estado, Validators.required],
-      tipo: [this.producto.tipo, Validators.required],
       marca: [this.producto.marca.id, Validators.required],
       categoria: [this.producto.categoria.id, Validators.required],
       minimo: [this.producto.minimo, Validators.required],
-      unidad: [this.producto.unidad, Validators.required],
+      unidad: [this.producto.unidad.id, Validators.required],
     });
 
     // Watch the form for changes, and
@@ -64,6 +64,12 @@ export class ItemCreatePage {
   obtenerCategorias() {
     this.items.obtenerCategorias().subscribe(categorias => {
       this.categorias = categorias;
+    })
+  }
+
+  obtenerUnidades() {
+    this.items.obtenerUnidades().subscribe(unidades => {
+      this.unidades = unidades;
     })
   }
 

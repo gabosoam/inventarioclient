@@ -2,22 +2,8 @@
 
   <ion-navbar>
     <ion-title>{{ producto.nombre }}</ion-title>
-    <ion-buttons start>
-      <button ion-button (click)="cancel()">
-        <span color="primary" showWhen="ios">
-          {{ 'CANCEL_BUTTON' | translate }}
-        </span>
-        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
-      </button>
-    </ion-buttons>
-    <ion-buttons end>
-      <button ion-button (click)="done()" [disabled]="!isReadyToSave" strong>
-        <span color="primary" showWhen="ios">
-          {{ 'DONE_BUTTON' | translate }}
-        </span>
-        <ion-icon name="md-checkmark" showWhen="core,android,windows"></ion-icon>
-      </button>
-    </ion-buttons>
+
+
   </ion-navbar>
 
 </ion-header>
@@ -29,31 +15,29 @@
 
     <ion-list>
       <ion-item>
-        <ion-label fixed>Código</ion-label>
+        <ion-label stacked>Código</ion-label>
         <ion-input disabled autofocus type="text" formControlName="codigo"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label fixed>Nombre</ion-label>
+        <ion-label stacked>Nombre</ion-label>
         <ion-input type="text" formControlName="nombre"></ion-input>
       </ion-item>
+
       <ion-item>
-        <ion-label fixed>Unidad</ion-label>
-        <ion-input type="text" formControlName="unidad"></ion-input>
-      </ion-item>
+          <ion-label stacked>Unidad</ion-label>
+          <ion-select formControlName="unidad">
+            <ion-option *ngFor="let unidad of unidades" value="{{unidad.id}}">{{unidad.nombre}}</ion-option>
+  
+          </ion-select>
+        </ion-item>
       <ion-item>
-        <ion-label fixed>Precio</ion-label>
+        <ion-label stacked>Precio</ion-label>
         <ion-input type="number" formControlName="precio"></ion-input>
       </ion-item>
     
+
       <ion-item>
-        <ion-label fixed>Tipo</ion-label>
-        <ion-select formControlName="tipo">
-          <ion-option selected value="unidad">UNIDAD</ion-option>
-          <ion-option value="granel">AL GRANEL</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label fixed>Marca</ion-label>
+        <ion-label stacked>Marca</ion-label>
         <ion-select formControlName="marca">
           <ion-option *ngFor="let marca of marcas" value={{marca.id}}>{{marca.nombre}}</ion-option>
 
@@ -61,16 +45,20 @@
       </ion-item>
 
       <ion-item>
-        <ion-label fixed>Categoría</ion-label>
+        <ion-label stacked>Categoría</ion-label>
         <ion-select formControlName="categoria">
           <ion-option *ngFor="let categoria of categorias" value="{{categoria.id}}">{{categoria.nombre}}</ion-option>
 
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-label fixed>Mínimo</ion-label>
+        <ion-label stacked>Mínimo</ion-label>
         <ion-input type="number" formControlName="minimo"></ion-input>
       </ion-item>
     </ion-list>
   </form>
+
+  <ion-col col-3>
+      <button ion-button (click)="done()">Guardar</button>
+    </ion-col>
 </ion-content>

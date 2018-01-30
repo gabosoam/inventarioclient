@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>LISTA DE PRECIOS - {{prod.unidad}} {{prod.nombre}}</ion-title>
+    <ion-title>LISTA DE PRECIOS - {{prod.unidad.nombre}} {{prod.nombre}}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -20,18 +20,22 @@
 
         <ion-input [(ngModel)]="id" type="hidden" value="" formControlName="id"></ion-input>
 
-      <ion-item>
-        <ion-label fixed>Unidad</ion-label>
-        <ion-input [(ngModel)]="unidad" type="text" value="" formControlName="unidad"></ion-input>
-      </ion-item>
+        <ion-item>
+            <ion-label stacked>Unidad</ion-label>
+            <ion-select [(ngModel)]="unidad" formControlName="unidad">
+                <ion-option disabled  value="">Seleccionar una unidad</ion-option>
+              <ion-option *ngFor="let unidad of unidades" value={{unidad.nombre}}>{{unidad.nombre}}</ion-option>
+
+            </ion-select>
+          </ion-item>
 
       <ion-item>
-        <ion-label fixed>Precio</ion-label>
+        <ion-label stacked>Precio</ion-label>
         <ion-input [(ngModel)]="precio" type="number" value="" formControlName="precio"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label fixed>Tamaño</ion-label>
+        <ion-label stacked>Tamaño</ion-label>
         <ion-input [(ngModel)]="tamano" type="number" value="" formControlName="tamano"></ion-input>
       </ion-item>
       <ion-item>

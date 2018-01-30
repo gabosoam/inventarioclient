@@ -17,19 +17,20 @@
   <form id="container" [formGroup]="formCodigo" (ngSubmit)="gestionar()">
 
     <ion-list>
+        <ion-list radio-group [(ngModel)]="unidad"  formControlName="unidad">
+            <ion-item *ngFor="let item of items">
+              <ion-label>{{item.unidad}}</ion-label>
+              <ion-radio  value={{item.tamano}} ></ion-radio>
+            </ion-item>
+        
+          </ion-list>
 
-      <ion-item>
-        <ion-label>Unidad de ingreso</ion-label>
-        <ion-select [(ngModel)]="unidad" formControlName="unidad">
-          <ion-option *ngFor="let item of items"  value={{item.tamano}}>{{item.unidad}}</ion-option>
-
-        </ion-select>
-      </ion-item>
+     
 
       
 
       <ion-item>
-        <ion-label fixed>Cantidad</ion-label>
+        <ion-label stacked>Cantidad</ion-label>
         <ion-input  type="number" value="" formControlName="cantidad"></ion-input>
       </ion-item>
 

@@ -1,83 +1,55 @@
 <ion-header>
 
   <ion-navbar>
-    <form id="container" *ngIf="form2" [formGroup]="form2" (ngSubmit)="saludar()">
-        <ion-searchbar [(ngModel)]="cbxProducto" autofocus formControlName="name" placeholder="Buscar producto por código">
-        </ion-searchbar>
-      </form>
+      <ion-title>Crear producto</ion-title>
+  
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
+    <form id="container" *ngIf="form2" [formGroup]="form2" (ngSubmit)="saludar()">
+        <ion-searchbar [(ngModel)]="cbxProducto"  formControlName="name" placeholder="Buscar producto por código">
+        </ion-searchbar>
+      </form>
   <ion-grid>
     <ion-row>
       <ion-col col-12>
 
-        <ion-card>
-          <!-- <form id="container" *ngIf="form2" [formGroup]="form2" (ngSubmit)="saludar()">
-            <ion-item id="rounded">
-              <ion-input [(ngModel)]="cbxProducto" autofocus type="text" placeholder="Código del producto" formControlName="name"></ion-input>
-            </ion-item>
-
-          </form> -->
-
-
-
-         
           <hr>
-          <div >
+          <div>
             <ion-list>
               <form id="container" *ngIf="form" [formGroup]="form" (ngSubmit)="registrar()">
-                <ion-item > 
-                  <ion-label fixed >Código</ion-label>
-                  <ion-input  formControlName="codigo" type="text"></ion-input>
+                <ion-item>
+                  <ion-label stacked>Código</ion-label>
+                  <ion-input placeholder="Código de barras del producto" autofocus formControlName="codigo" type="text"></ion-input>
                 </ion-item>
                 <ion-item>
-                  <ion-label fixed>Nombre</ion-label>
-                  <ion-input type="text" formControlName="nombre"></ion-input>
+                  <ion-label stacked>Nombre</ion-label>
+                  <ion-input placeholder="Nombre del producto" type="text" formControlName="nombre"></ion-input>
                 </ion-item>
                 <ion-row>
 
 
                   <ion-item>
-                    <ion-label fixed>Unidad</ion-label>
+                    <ion-label stacked>Unidad</ion-label>
                     <ion-select formControlName="unidad">
+                        <ion-option disabled  value="">Seleccionar una unidad</ion-option>
                       <ion-option *ngFor="let unidad of unidades" value={{unidad.id}}>{{unidad.nombre}}</ion-option>
 
                     </ion-select>
                   </ion-item>
 
-
-
-
                   <ion-item>
-                    <ion-label fixed>Precio venta</ion-label>
-                    <ion-input type="number" formControlName="precio"></ion-input>
+                    <ion-label stacked>Precio venta</ion-label>
+                    <ion-input placeholder="Precio de venta del producto" type="number" formControlName="precio"></ion-input>
                   </ion-item>
 
-
-
-
-
                   <ion-item>
-                    <ion-label fixed>Estado</ion-label>
-                    <ion-select formControlName="estado">
-                      <ion-option selected value="1">ACTIVO</ion-option>
-                      <ion-option value="0">INACTIVO</ion-option>
-                    </ion-select>
-                  </ion-item>
-
-
-
-
-
-
-
-                  <ion-item>
-                    <ion-label fixed>Marca</ion-label>
+                    <ion-label stacked>Marca</ion-label>
                     <ion-select formControlName="marca">
+                        <ion-option disabled  value="">Seleccionar una marca</ion-option>
                       <ion-option *ngFor="let marca of marcas" value={{marca.id}}>{{marca.nombre}}</ion-option>
 
                     </ion-select>
@@ -86,25 +58,21 @@
 
 
                   <ion-item>
-                    <ion-label fixed>Categoría</ion-label>
-                    <ion-select formControlName="categoria">
+                    <ion-label stacked>Categoría</ion-label>
+                    <ion-select formControlName="categoria" >
+                        <ion-option disabled  value="">Seleccionar una categoría</ion-option>
                       <ion-option *ngFor="let categoria of categorias" value="{{categoria.id}}">{{categoria.nombre}}</ion-option>
 
                     </ion-select>
                   </ion-item>
 
-
-
                   <ion-item>
-                    <ion-label fixed>Existencia actual</ion-label>
-                    <ion-input type="number" formControlName="stock"></ion-input>
+                    <ion-label stacked>Existencia actual</ion-label>
+                    <ion-input placeholder="Cantidad en bodega" type="number" formControlName="stock"></ion-input>
                   </ion-item>
 
-
-
-
                   <ion-item>
-                    <ion-label fixed>Existencia mínima</ion-label>
+                    <ion-label stacked>Existencia mínima</ion-label>
                     <ion-input type="number" formControlName="minimo"></ion-input>
                   </ion-item>
 
@@ -143,7 +111,7 @@
 
           </div>
 
-        </ion-card>
+   
 
 
 

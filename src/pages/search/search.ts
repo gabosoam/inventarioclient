@@ -24,6 +24,7 @@ export class SearchPage {
   form2: FormGroup;
   validador: boolean;
   idProducto: any;
+  selectOptions: any;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -41,7 +42,7 @@ export class SearchPage {
 
     this.form = formBuilder.group({
       codigo: ['', Validators.required],
-      nombre: ['', Validators.required],
+      nombre: [null, Validators.required],
       marca: ['', Validators.required],
       categoria: ['', Validators.required],
       precio: ['', Validators.required],
@@ -57,31 +58,34 @@ export class SearchPage {
     this.obtenerUnidades();
 
 
+
+
   }
 
   saludar() {
 
     var seq = this.items.buscarProducto(this.form2.value.name).share();
-
+   
     seq.subscribe((res: any) => {
-
+   
       if (res.length == 1) {
-        this.validador = true;
 
-        this.idProducto = res[0].id;
+        
+        // this.validador = true;
+
+        // this.idProducto = res[0].id;
 
 
         this.form.setValue({
           codigo: res[0].codigo,
           nombre: res[0].nombre,
-          tipo: res[0].tipo,
-          marca: res[0].marca.id,
-          categoria: res[0].categoria.id,
-          precio: res[0].precio,
-          stock: res[0].stock,
-          minimo: res[0].minimo,
-          unidad: res[0].unidad,
-          estado: res[0].estado,
+          marca: '',
+          categoria: '',
+          precio: 0,
+          stock: 0,
+          minimo: 1,
+          unidad: '',
+          estado: 1,
         })
 
       } else {
@@ -103,50 +107,61 @@ export class SearchPage {
 
 
     if (this.validador) {
-     
+
 
       let seq = this.items.modificarProducto(this.idProducto, this.form.value);
       seq.subscribe((res: any) => {
 
-       
-          let alert = this.alertCtrl.create({
-            title: 'Éxito!',
-            subTitle: 'Se modificó el producto satisfactoriamente',
-            buttons: ['OK']
-          });
-          alert.present();
 
-          this.navCtrl.push(SearchPage);
+        let alert = this.alertCtrl.create({
+          title: 'Éxito!',
+          subTitle: 'Se modificó el producto satisfactoriamente',
+          buttons: ['OK']
+        });
+        alert.present();
 
-       
+        this.navCtrl.push(SearchPage);
+
+
       }, err => {
         console.error('ERROR', err);
       });
     } else {
 
-      if (!this.form.valid) { return; }
-      var seq = this.items.crearProducto(this.form.value).share();
-
-      seq.subscribe((res: any) => {
-        let alert = this.alertCtrl.create({
-          title: 'Éxito!',
-          subTitle: 'Se guardo el producto satisfactoriamente',
-          buttons: ['OK']
-        });
-        alert.present();
-
-        this.viewCtrl.dismiss(res);
-
-      }, err => {
-      
+      if (!this.form.valid) {
         let alert = this.alertCtrl.create({
           title: 'Error!',
-          subTitle: 'Existió un error '+JSON.stringify(err),
+          subTitle: 'Todos los campos son obligatorios',
           buttons: ['OK']
         });
         alert.present();
-       // this.viewCtrl.dismiss(this.form.value);
-      });
+      } else {
+        var seq = this.items.crearProducto(this.form.value).share();
+
+        seq.subscribe((res: any) => {
+          let alert = this.alertCtrl.create({
+            title: 'Éxito!',
+            subTitle: 'Se guardo el producto satisfactoriamente',
+            buttons: ['OK']
+          });
+          alert.present();
+
+          this.viewCtrl.dismiss(res);
+
+        }, err => {
+          console.log(err);
+
+          let alert = this.alertCtrl.create({
+            title: 'Error!',
+            subTitle: 'Comprueba que la información ingresada es correcta ',
+            buttons: ['OK']
+          });
+          alert.present();
+          // this.viewCtrl.dismiss(this.form.value);
+        });
+
+      }
+
 
     }
 

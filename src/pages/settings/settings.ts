@@ -79,7 +79,9 @@ export class SettingsPage {
        //  let addModal = this.modalCtrl.create('ItemCreatePage');
        let addModal = this.modalCtrl.create('SearchPage');
        addModal.onDidDismiss(producto => {
-         this.buscarCodigo2(producto.codigo);
+         if (producto) {
+          this.buscarCodigo2(producto.codigo);
+         }
        })
        addModal.present();
   }
@@ -168,7 +170,9 @@ export class SettingsPage {
     //  let addModal = this.modalCtrl.create('ItemCreatePage');
     let addModal = this.modalCtrl.create('StockPage', { producto: producto });
     addModal.onDidDismiss(data => {
+     
       if (data) {
+       
         let seq = this.items.modificarStock(data.id, data.stock);
 
         seq.subscribe(res => {
@@ -245,10 +249,12 @@ export class SettingsPage {
               let seq = this.items.modificarProducto(producto.id, { estado: 0 });
 
               seq.subscribe(res => {
+               
                 if (this.buscador == "nombre") {
                   this.saludar();
                 } else if (this.buscador == "codigo") {
                   this.buscarCodigo();
+                  
                 }
 
 

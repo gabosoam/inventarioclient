@@ -24,6 +24,7 @@ export class PrecioPage {
   unidad: any;
   precio: any;
   tamano: any;
+  unidades: any;
   items: any;
   id: any;
   accion: any;
@@ -37,7 +38,11 @@ export class PrecioPage {
 
     this.prod = navParams.get('producto');
     this.obtenerPrecios();
+    this.obtenerUnidades();
+    this.accion='nuevo';
     this.checked = false;
+
+    
 
     this.formCodigo = formBuilder.group({
       id: [''],
@@ -46,22 +51,32 @@ export class PrecioPage {
       tamano: ['', Validators.required],
       producto: [this.prod.id, Validators.required]
     });
+
+   
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad PrecioPage');
   }
 
+  obtenerUnidades() {
+    this.service.obtenerUnidades().subscribe(resultado => {
+      console.log(resultado)
+      this.unidades = resultado;
+    })
+  }
+
+
   obtenerPrecios() {
-
-
     let seq = this.service.obtenerPrecios(this.prod.id);
     seq.subscribe((res) => {
+      console.log(res)
       this.items = res;
     })
   }
 
   editar(producto) {
+    
     this.accion = "editar";
 
     this.checked = true;
@@ -80,13 +95,14 @@ export class PrecioPage {
   }
 
   nuevo() {
-    console.log('llego')
+    
     this.accion = "nuevo"
     this.unidad = "";
     this.precio = "";
     this.tamano = "";
     this.id = "";
   }
+
 
   gestionar() {
 
@@ -105,6 +121,7 @@ export class PrecioPage {
             this.precio = "";
             this.tamano = "";
             this.id = "";
+            this.nuevo();
           })
           break;
 
@@ -116,7 +133,7 @@ export class PrecioPage {
           precio: this.formCodigo.value.precio,
         });
           seq2.subscribe((res) => {
-            console.log(res)
+       
             this.obtenerPrecios();
             this.unidad = "";
             this.precio = "";
