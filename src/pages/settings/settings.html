@@ -17,7 +17,7 @@
   <ion-grid>
     <ion-row>
       <ion-col col-2 >
-        <form id="container" *ngIf="formCodigo==true" [formGroup]="formCodigo" (ngSubmit)="buscarCodigo()">
+        <form id="container" [formGroup]="formCodigo" (ngSubmit)="buscarCodigo()">
           <ion-searchbar style="width: 100%" autofocus formControlName="name" placeholder="Buscar por código">
           </ion-searchbar>
         </form>
@@ -33,7 +33,9 @@
           </ion-searchbar>
         </form>
       </ion-col>
-      <ion-col col-3></ion-col>
+      <ion-col col-3>
+        <button ion-button (click)="crearProducto()">Crear un producto</button>
+      </ion-col>
     </ion-row>
     <ion-list>
 
@@ -57,7 +59,7 @@
         <td overflow-scroll = " true " style="padding: 5px; text-align: center">{{producto.codigo}}</td>
         <td style="padding: 5px; text-align: center">{{producto.nombre}}</td>
         <td style="padding: 5px; text-align: center">
-            <button ion-button clear>{{producto.stock}} ({{producto.unidad}})</button> </td>
+            <button ion-button clear>{{producto.stock}} ({{producto.unidad.nombre}})</button> </td>
       
         <td style="padding: 5px; text-align: center">${{producto.precio}}</td>
        

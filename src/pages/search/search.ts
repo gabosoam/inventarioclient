@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, AlertController, ViewController } from 'ionic-angular';
 
 import { Item } from '../../models/item';
 import { Items } from '../../providers/providers';
@@ -19,6 +19,7 @@ export class SearchPage {
 
   marcas: any;
   categorias: any;
+  unidades: any;
   form: FormGroup;
   form2: FormGroup;
   validador: boolean;
@@ -28,7 +29,8 @@ export class SearchPage {
     public navParams: NavParams,
     public items: Items,
     formBuilder: FormBuilder,
-    public alertCtrl: AlertController) {
+    public alertCtrl: AlertController,
+    public viewCtrl: ViewController) {
 
     this.form2 = formBuilder.group({
       name: ['', Validators.required]
@@ -40,19 +42,19 @@ export class SearchPage {
     this.form = formBuilder.group({
       codigo: ['', Validators.required],
       nombre: ['', Validators.required],
-      tipo: ['', Validators.required],
       marca: ['', Validators.required],
       categoria: ['', Validators.required],
       precio: ['', Validators.required],
-      stock: ['', Validators.required],
-      minimo: ['', Validators.required],
+      stock: ['1', Validators.required],
+      minimo: ['0', Validators.required],
       unidad: ['', Validators.required],
-      estado: ['', Validators.required],
+      estado: ['1', Validators.required],
 
     });
 
     this.obtenerMarcas();
     this.obtenerCategorias();
+    this.obtenerUnidades();
 
 
   }
@@ -133,15 +135,17 @@ export class SearchPage {
         });
         alert.present();
 
-        this.navCtrl.push(SearchPage);
+        this.viewCtrl.dismiss(res);
 
       }, err => {
+      
         let alert = this.alertCtrl.create({
           title: 'Error!',
-          subTitle: 'Existió un error ',
+          subTitle: 'Existió un error '+JSON.stringify(err),
           buttons: ['OK']
         });
         alert.present();
+       // this.viewCtrl.dismiss(this.form.value);
       });
 
     }
@@ -183,6 +187,14 @@ export class SearchPage {
 
 
       this.categorias = categorias;
+    })
+  }
+
+  obtenerUnidades() {
+    this.items.obtenerUnidades().subscribe(resultado => {
+
+      console.log(resultado)
+      this.unidades = resultado;
     })
   }
 

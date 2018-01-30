@@ -1,7 +1,10 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Productos</ion-title>
+    <form id="container" *ngIf="form2" [formGroup]="form2" (ngSubmit)="saludar()">
+        <ion-searchbar [(ngModel)]="cbxProducto" autofocus formControlName="name" placeholder="Buscar producto por código">
+        </ion-searchbar>
+      </form>
   </ion-navbar>
 
 </ion-header>
@@ -13,110 +16,98 @@
       <ion-col col-12>
 
         <ion-card>
-          <form id="container" *ngIf="form2" [formGroup]="form2" (ngSubmit)="saludar()">
+          <!-- <form id="container" *ngIf="form2" [formGroup]="form2" (ngSubmit)="saludar()">
             <ion-item id="rounded">
               <ion-input [(ngModel)]="cbxProducto" autofocus type="text" placeholder="Código del producto" formControlName="name"></ion-input>
             </ion-item>
 
-          </form>
+          </form> -->
+
+
+
+         
           <hr>
+          <div >
+            <ion-list>
+              <form id="container" *ngIf="form" [formGroup]="form" (ngSubmit)="registrar()">
+                <ion-item > 
+                  <ion-label fixed >Código</ion-label>
+                  <ion-input  formControlName="codigo" type="text"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label fixed>Nombre</ion-label>
+                  <ion-input type="text" formControlName="nombre"></ion-input>
+                </ion-item>
+                <ion-row>
 
-          <ion-list>
-            <form id="container" *ngIf="form" [formGroup]="form" (ngSubmit)="registrar()">
 
-              <ion-row>
-                <ion-col col-3>
                   <ion-item>
-                    <ion-label floating>Código</ion-label>
-                    <ion-input autofocus formControlName="codigo" type="text" (keypress)="buscar(this)"></ion-input>
+                    <ion-label fixed>Unidad</ion-label>
+                    <ion-select formControlName="unidad">
+                      <ion-option *ngFor="let unidad of unidades" value={{unidad.id}}>{{unidad.nombre}}</ion-option>
+
+                    </ion-select>
                   </ion-item>
 
-                </ion-col>
-                <ion-col col-3>
-                  <ion-item>
-                    <ion-label floating>Nombre</ion-label>
-                    <ion-input type="text" formControlName="nombre"></ion-input>
-                  </ion-item>
-                </ion-col>
-                <ion-col col-3>
-                  <ion-item>
-                    <ion-label floating>Unidad</ion-label>
-                    <ion-input type="text" formControlName="unidad"></ion-input>
-                  </ion-item>
 
-                </ion-col>
 
-                <ion-col col-3>
+
                   <ion-item>
-                    <ion-label floating>Precio venta</ion-label>
+                    <ion-label fixed>Precio venta</ion-label>
                     <ion-input type="number" formControlName="precio"></ion-input>
                   </ion-item>
 
 
-                </ion-col>
 
-                <ion-col col-3>
+
+
                   <ion-item>
-                    <ion-label floating>Estado</ion-label>
+                    <ion-label fixed>Estado</ion-label>
                     <ion-select formControlName="estado">
                       <ion-option selected value="1">ACTIVO</ion-option>
                       <ion-option value="0">INACTIVO</ion-option>
                     </ion-select>
                   </ion-item>
 
-                </ion-col>
 
-                <ion-col col-3>
-                  <ion-item>
-                    <ion-label floating>Tipo</ion-label>
-                    <ion-select formControlName="tipo">
-                      <ion-option selected value="unidad">Unidad</ion-option>
-                      <ion-option value="granel">Al granel</ion-option>
-                    </ion-select>
-                  </ion-item>
 
-                </ion-col>
-                <ion-col col-3>
+
+
+
+
                   <ion-item>
-                    <ion-label floating>Marca</ion-label>
+                    <ion-label fixed>Marca</ion-label>
                     <ion-select formControlName="marca">
                       <ion-option *ngFor="let marca of marcas" value={{marca.id}}>{{marca.nombre}}</ion-option>
 
                     </ion-select>
                   </ion-item>
 
-                </ion-col>
 
-                <ion-col col-3>
+
                   <ion-item>
-                    <ion-label floating>Categoría</ion-label>
+                    <ion-label fixed>Categoría</ion-label>
                     <ion-select formControlName="categoria">
                       <ion-option *ngFor="let categoria of categorias" value="{{categoria.id}}">{{categoria.nombre}}</ion-option>
 
                     </ion-select>
                   </ion-item>
 
-                </ion-col>
-                <ion-col col-3>
+
+
                   <ion-item>
-                    <ion-label floating>Existencia actual</ion-label>
+                    <ion-label fixed>Existencia actual</ion-label>
                     <ion-input type="number" formControlName="stock"></ion-input>
                   </ion-item>
 
-                </ion-col>
 
-                <ion-col col-3>
+
+
                   <ion-item>
-                    <ion-label floating>Existencia mínima</ion-label>
+                    <ion-label fixed>Existencia mínima</ion-label>
                     <ion-input type="number" formControlName="minimo"></ion-input>
                   </ion-item>
 
-                </ion-col>
-
-
-
-
-              </ion-row>
 
 
 
@@ -128,13 +119,26 @@
 
 
 
-            </form>
-            <hr>
-            <ion-col col-3>
-              <button ion-button (click)="registrar()">Guardar</button>
-            </ion-col>
+                </ion-row>
 
-          </ion-list>
+
+
+
+
+
+
+
+
+
+
+              </form>
+              <hr>
+              <ion-col col-3>
+                <button ion-button (click)="registrar()">Guardar</button>
+              </ion-col>
+
+            </ion-list>
+          </div>
           <div padding>
 
           </div>

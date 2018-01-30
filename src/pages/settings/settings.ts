@@ -75,6 +75,15 @@ export class SettingsPage {
 
   }
 
+  crearProducto(){
+       //  let addModal = this.modalCtrl.create('ItemCreatePage');
+       let addModal = this.modalCtrl.create('SearchPage');
+       addModal.onDidDismiss(producto => {
+         this.buscarCodigo2(producto.codigo);
+       })
+       addModal.present();
+  }
+
   buscarNombre(nombre) {
     this.buscador = "nombre";
     let seq = this.items.buscarProductoNombre(nombre);

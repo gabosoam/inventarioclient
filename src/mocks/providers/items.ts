@@ -105,7 +105,7 @@ export class Items {
   }
 
   buscarProductoCodigo(codigo) {
-    let seq = this.api.get('producto?where={"codigo":{"contains":"'+codigo+'"},"estado":{"contains":"1"}}').share();
+    let seq = this.api.get('producto?where={"codigo":{"contains":"'+codigo+'"}}').share();
     
 
     return seq;
@@ -155,16 +155,16 @@ export class Items {
 
     let seq = this.api.get('categoria?sort=nombre&limit=100').share();
 
-    seq.subscribe((res: any) => {
-      // If the API returned a successful response, mark the user as logged in
-      if (res.status == 'success') {
-        console.log(res);
-      } else {
-      }
-    }, err => {
-      console.error('ERROR', err);
-    });
+  
+    return seq;
 
+  }
+
+  obtenerUnidades() {
+
+    let seq = this.api.get('unidad?sort=nombre').share();
+
+  
     return seq;
 
   }
