@@ -4,8 +4,8 @@
   
   <ion-grid>
     <ion-row>
-      <ion-col col-4></ion-col>
-      <ion-col col-4>
+      <ion-col col-0 col-sm-0 col-xs-0 col-md-0 col-lg-4 col-xl-4></ion-col>
+      <ion-col col-12 col-sm-12 col-xs-12 col-md-12 col-lg-4 col-xl-4>
           <div class="login-content">
 
               <!-- Logo -->
@@ -19,7 +19,7 @@
               <!-- Login form -->
               <form (submit)="doLogin()">
                 <ion-item>
-                  <ion-label floating>
+                  <ion-label stacked>
                     <ion-icon name="md-contact" item-start class="text-primary"></ion-icon>
                     Nombre de usuario
                   </ion-label>
@@ -27,11 +27,11 @@
                 </ion-item>
           
                 <ion-item>
-                  <ion-label floating>
+                  <ion-label stacked>
                     <ion-icon name="lock" item-start class="text-primary"></ion-icon>
                     Contraseña
                   </ion-label>
-                  <ion-input type="password" [(ngModel)]="account.password" name="password"></ion-input>
+                  <ion-input type="password" [(ngModel)]="account.contrasena" name="password"></ion-input>
                 </ion-item>
               </form>
           
@@ -51,7 +51,7 @@
           
             </div>
       </ion-col>
-      <ion-col col-4></ion-col>
+      <ion-col col-0 col-sm-0 col-xs-0 col-md-0 col-lg-4 col-xl-4></ion-col>
     </ion-row>
   </ion-grid>
 

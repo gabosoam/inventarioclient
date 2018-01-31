@@ -25,7 +25,7 @@ export class SettingsPage {
 
   form: FormGroup;
   formCodigo: FormGroup;
-
+  codigo: any;
   productos: any;
 
   buscador: String;
@@ -80,7 +80,10 @@ export class SettingsPage {
        let addModal = this.modalCtrl.create('SearchPage');
        addModal.onDidDismiss(producto => {
          if (producto) {
+
+          this.codigo= producto.codigo
           this.buscarCodigo2(producto.codigo);
+          
          }
        })
        addModal.present();
@@ -113,10 +116,11 @@ export class SettingsPage {
   }
 
   buscarCodigo2(codigo) {
+    this.buscador = "codigo";
     let seq = this.items.buscarProductoCodigo(codigo);
     seq.subscribe((res: any) => {
-      console.log('asdasdsa')
-      console.log(res);
+ 
+    
       this.productos = res;
     }, err => {
       console.error('ERROR', err);
@@ -134,6 +138,7 @@ export class SettingsPage {
         let seq = this.items.modificarProducto(producto.id, producto);
 
         seq.subscribe(res => {
+
 
           if (this.buscador == "nombre") {
             this.saludar();
@@ -186,48 +191,7 @@ export class SettingsPage {
       }
     })
     addModal.present();
-    // let prompt = this.alertCtrl.create({
-    //   title: producto.nombre,
-    //   message: "Ingresa la cantidad ",
-    //   inputs: [
-    //     {
-    //       name: 'stock',
-    //       placeholder: 'Stock',
-    //       type: 'number',
-    //       min: 0
-    //     },
-    //     {
-    //       name: 'id',
-    //       value: producto.id,
-    //       type: 'hidden',
-
-    //       min: 0
-    //     },
-    //   ],
-    //   buttons: [
-    //     {
-    //       text: 'Cancelar',
-    //       handler: data => {
-
-    //       }
-    //     },
-    //     {
-    //       text: 'Guardar',
-    //       handler: data => {
-    //         let seq = this.items.modificarStock(data.id, data.stock);
-
-    //         seq.subscribe(res=>{
-    //           if (this.buscador == "nombre") {
-    //             this.saludar();
-    //           } else if (this.buscador == "codigo") {
-    //             this.buscarCodigo();
-    //           }
-    //         })
-    //       }
-    //     }
-    //   ]
-    // });
-    // prompt.present();
+  
 
   }
 

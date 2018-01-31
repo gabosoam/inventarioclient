@@ -206,95 +206,21 @@ export class ListMasterPage {
     if (!this.form.valid) { return; }
 
 
-    let seq = this.items.obtenerProducto(this.form.value);
 
-    seq.subscribe((res: any) => {
-      if (res.length == 1) {
-        switch (res[0].tipo) {
-          case 'unidad':
-            if (res[0].stock >= 1) {
-              this.items.generarIngreso(this.factura.id, 1, res[0].id, res[0].precio).subscribe(resp => {
-                this.obtenerDetalles();
-                this.cbxProducto = '';
-
-
-              });
-
-
-            } else {
-              let alert = this.alertCtrl.create({
-                title: 'Error!',
-                subTitle: JSON.stringify('No hay stock : ' + this.form.value.name),
-                buttons: ['OK']
-              });
-              alert.present();
-            }
-            break;
-
-          case 'granel':
-
-            let prompt = this.alertCtrl.create({
-              title: 'Venta en granel - ' + res[0].nombre,
-              message: "Ingrese la cantidad igual o inferior a: " + res[0].stock,
-              inputs: [
-                {
-                  name: 'producto',
-                  placeholder: 'Producto',
-                  type: 'hidden',
-                  value: res[0].id,
-                  disabled: true,
-                },
-                {
-                  name: 'cantidad',
-                  placeholder: 'Cantidad',
-                  type: 'number',
-                  min: 0.1,
-                  max: res[0].stock,
-
-
-                },
-              ],
-              buttons: [
-                {
-                  text: 'Cancelar',
-                  handler: data => {
-                    // console.log('Cancel clicked');
-                  }
-                },
-                {
-                  text: 'Vender',
-                  handler: data => {
-                    var precio = data.cantidad * res[0].precio;
-
-                    this.items.generarIngreso(this.factura.id, data.cantidad, res[0].id, res[0].precio).subscribe(resp => {
-                      this.obtenerDetalles();
-                      this.cbxProducto = '';
-
-
-                    });
-                  }
-                }
-              ]
-            });
-            prompt.present();
-
-            break;
-        }
-
-      } else {
-
-
-        let alert = this.alertCtrl.create({
-          title: 'Error!',
-          subTitle: JSON.stringify('No existe el producto con el código: ' + this.form.value.name),
-          buttons: ['OK']
-        });
-        alert.present();
-
-      }
-    }, err => {
-      console.error('ERROR', err);
-    });
+    this.items.buscarProductoCodigo(this.form.value.name).subscribe((resultado: any)=>{
+    if (resultado.length>0) {
+      
+         //  let addModal = this.modalCtrl.create('ItemCreatePage');
+    let addModal = this.modalCtrl.create('CantidadPage', { producto: {id: resultado[0].id}});
+    addModal.onDidDismiss(data => {
+     alert(JSON.stringify(data))
+      
+    })
+    addModal.present();
+    } else {
+      alert('No existe el código ingresado')
+    }
+    })
 
 
 

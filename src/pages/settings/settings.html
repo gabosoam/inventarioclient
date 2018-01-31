@@ -16,9 +16,9 @@
 
   <ion-grid>
     <ion-row>
-      <ion-col col-2>
+      <ion-col col-12 col-sm-12  col-md-4 col-lg-4 col-xl-4>
         <form id="container" [formGroup]="formCodigo" (ngSubmit)="buscarCodigo()">
-          <ion-searchbar style="width: 100%" autofocus formControlName="name" placeholder="Buscar por código">
+          <ion-searchbar [(ngModel)]="codigo" style="width: 100%" autofocus formControlName="name" placeholder="Buscar por código">
           </ion-searchbar>
         </form>
 
@@ -26,14 +26,14 @@
 
 
       </ion-col>
-      <ion-col col-6>
+      <ion-col col-12 col-sm-12  col-md-4 col-lg-4 col-xl-4>
 
         <form id="container" *ngIf="form" [formGroup]="form" (ngSubmit)="saludar()">
-          <ion-searchbar autofocus formControlName="name" placeholder="Buscar por nombre">
+          <ion-searchbar  autofocus formControlName="name" placeholder="Buscar por nombre">
           </ion-searchbar>
         </form>
       </ion-col>
-      <ion-col col-3>
+      <ion-col col-12 col-sm-12  col-md-4 col-lg-4 col-xl-4>
         <button ion-button (click)="crearProducto()">Crear un producto</button>
       </ion-col>
     </ion-row>

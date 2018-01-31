@@ -24,7 +24,7 @@
             <ion-label stacked>Unidad</ion-label>
             <ion-select [(ngModel)]="unidad" formControlName="unidad">
                 <ion-option disabled  value="">Seleccionar una unidad</ion-option>
-              <ion-option *ngFor="let unidad of unidades" value={{unidad.nombre}}>{{unidad.nombre}}</ion-option>
+              <ion-option *ngFor="let unidad of unidades" value={{unidad.id}}>{{unidad.nombre}}</ion-option>
 
             </ion-select>
           </ion-item>
@@ -59,7 +59,7 @@
       <th style="padding: 5px; text-align: center"></th>
     </tr>
     <tr *ngFor="let item of items">
-      <td style="padding: 5px; text-align: center">{{item.unidad}}</td>
+      <td style="padding: 5px; text-align: center">{{item.unidad.nombre}}</td>
       <td style="padding: 5px; text-align: center">${{item.precio}}</td>
       <td style="padding: 5px; text-align: center">{{item.tamano}}</td>
 

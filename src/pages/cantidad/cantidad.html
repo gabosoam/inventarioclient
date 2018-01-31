@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Agregar stock</ion-title>
+    <ion-title>Cantidad</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -17,17 +17,13 @@
   <form id="container" [formGroup]="formCodigo" (ngSubmit)="gestionar()">
 
     <ion-list>
-        <ion-list radio-group [(ngModel)]="unidad"  formControlName="unidad">
+        <ion-list radio-group [(ngModel)]="unidad"   formControlName="unidad">
             <ion-item *ngFor="let item of items">
               <ion-label>{{item.unidad.nombre}}</ion-label>
-              <ion-radio  value={{item.tamano}} ></ion-radio>
+              <ion-radio  value={{item.unidad}} ></ion-radio>
             </ion-item>
         
           </ion-list>
-
-     
-
-      
 
       <ion-item>
         <ion-label stacked>Cantidad</ion-label>

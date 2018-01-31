@@ -105,7 +105,7 @@ export class Items {
   }
 
   buscarProductoCodigo(codigo) {
-    let seq = this.api.get('producto?where={"codigo":{"contains":"'+codigo+'"},"estado":{"contains":"1"}}').share();
+    let seq = this.api.get('producto?codigo='+codigo+'&estado=1').share();
     
 
     return seq;
@@ -231,6 +231,7 @@ export class Items {
     let seq = this.api.post('producto', producto).share();
     return seq;
   }
+  
 
   modificarProducto(id,body) {
     let seq = this.api.put('producto/'+id, body).share();

@@ -70,7 +70,7 @@ export class PrecioPage {
   obtenerPrecios() {
     let seq = this.service.obtenerPrecios(this.prod.id);
     seq.subscribe((res) => {
-      console.log(res)
+     
       this.items = res;
     })
   }

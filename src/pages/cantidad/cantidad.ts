@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Items } from '../../providers/providers';
 
 /**
- * Generated class for the StockPage page.
+ * Generated class for the CantidadPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -12,40 +12,49 @@ import { Items } from '../../providers/providers';
 
 @IonicPage()
 @Component({
-  selector: 'page-stock',
-  templateUrl: 'stock.html',
+  selector: 'page-cantidad',
+  templateUrl: 'cantidad.html',
 })
-export class StockPage {
-
+export class CantidadPage {
   formCodigo: FormGroup;
   prod: any;
   items: any;
-  constructor(
-    public navCtrl: NavController,
+
+  constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public formBuilder: FormBuilder,
     public service: Items,
     public viewCtrl: ViewController) {
+
     this.prod = navParams.get('producto');
 
     this.formCodigo = formBuilder.group({
-   
+
       unidad: ['', Validators.required],
-      cantidad: ['', Validators.required]
+      cantidad: ['', Validators.required],
+      tamano: ['', Validators.required]
     });
 
     this.obtenerPrecios();
   }
 
-  gestionar(){
-    var total = this.formCodigo.value.cantidad/this.formCodigo.value.unidad;
-  
+  cambiar(producto){
+    alert(JSON.stringify(producto));
+  }
 
-    if (this.formCodigo.valid) {
-      this.viewCtrl.dismiss({id: this.prod.id, stock: total});
-    } else {
+  gestionar(producto){
+    alert(JSON.stringify(this.formCodigo.value))
+    // var total = this.formCodigo.value.cantidad*this.formCodigo.value.unidad;
+    // var data ={
+    //   cantidad: this.formCodigo.value.cantidad,
+    //   precio: this.formCodigo.value.unidad
+    // }
+
+    // if (this.formCodigo.valid) {
+    //   this.viewCtrl.dismiss(data);
+    // } else {
       
-    }
+    // }
     
   }
 
@@ -63,5 +72,4 @@ export class StockPage {
       this.items = res;
     })
   }
-
 }
