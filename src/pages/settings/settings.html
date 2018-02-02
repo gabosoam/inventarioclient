@@ -1,89 +1,87 @@
-<ion-header>
-
-  <ion-navbar>
-    <ion-title>Inicio</ion-title>
-
-
-  </ion-navbar>
-
-</ion-header>
+<ion-content class="animated fadeIn login auth-page">
+  <div class="w3-container w3-blue">
+    <h2>Inicio</h2>
+  </div>
 
 
 
-<ion-content overflow-scroll=" true ">
 
-
-
-  <ion-grid>
-    <ion-row>
-      <ion-col col-12 col-sm-12  col-md-4 col-lg-4 col-xl-4>
+  <div class="w3-container w3-light-gray">
+    <div class="w3-row">
+      <div class="w3-col w3-padding s12 m4 l4">
         <form id="container" [formGroup]="formCodigo" (ngSubmit)="buscarCodigo()">
-          <ion-searchbar [(ngModel)]="codigo" style="width: 100%" autofocus formControlName="name" placeholder="Buscar por código">
-          </ion-searchbar>
+
+          <label class="w3-text-blue">
+            <b>Buscar por código</b>
+          </label>
+          <input class="w3-input w3-border w3-round" type="text" [(ngModel)]="codigo" autofocus formControlName="name" placeholder="Buscar por código">
+
+
         </form>
+      </div>
+      <div class="w3-col w3-padding s12 m4 l4">
+        <form style="max-width: 100" id="container" *ngIf="form" [formGroup]="form" (ngSubmit)="saludar()">
 
-
-
-
-      </ion-col>
-      <ion-col col-12 col-sm-12  col-md-4 col-lg-4 col-xl-4>
-
-        <form id="container" *ngIf="form" [formGroup]="form" (ngSubmit)="saludar()">
-          <ion-searchbar  autofocus formControlName="name" placeholder="Buscar por nombre">
-          </ion-searchbar>
+          <label class="w3-text-blue">
+            <b>Buscar por código</b>
+          </label>
+          <input class="w3-input w3-border w3-round" type="text" autofocus formControlName="name" placeholder="Buscar por nombre">
         </form>
-      </ion-col>
-      <ion-col col-12 col-sm-12  col-md-4 col-lg-4 col-xl-4>
-        <button ion-button (click)="crearProducto()">Crear un producto</button>
-      </ion-col>
-    </ion-row>
+      </div>
+      <div class="w3-col w3-padding s12 m4 l4">
+          <button ion-button (click)="crearProducto()">Crear un producto</button>
+        </div>
+    </div>
+  </div>
+
+<div class="">
+    <table class="w3-table w3-striped w3-bordered  w3-round">
+
+        <tr class="w3-dark-gray">
+    
+          <th>Código</th>
+          <th>Producto</th>
+          <th>Stock</th>
+    
+          <th>Precio</th>
+    
+          <th>Mínimo</th>
+          <th>Acciones</th>
+        </tr>
+        <tr *ngFor="let producto of productos">
+          <td overflow-scroll=" true ">{{producto.codigo}}</td>
+          <td>{{producto.nombre}}</td>
+          <td>
+              {{producto.stock}} ({{producto.unidad.nombre}})
+          </td>
+    
+          <td>${{producto.precio}}</td>
+    
+          <td>{{producto.minimo}}</td>
+          <td>
+            <button ion-button round icon-only small (click)="agregarStock(producto)">
+              <ion-icon name="md-add"></ion-icon>
+            </button>
+            <button ion-button small icon-only color="secondary" (click)="modificarItem(producto)" round>
+              <ion-icon name="md-create"></ion-icon>
+            </button>
+            <button ion-button small icon-only color="light" (click)="listarPrecios(producto)" round>
+              <ion-icon name="logo-usd"></ion-icon>
+            </button>
+            <button ion-button small icon-only color="danger" (click)="desactivarItem(producto)" round>
+              <ion-icon name="md-trash"></ion-icon>
+            </button>
+          </td>
+        </tr>
+    
+    
+      </table>
+</div>
 
 
-    <table style="width: 100%; padding: 10px; border-radius: 25px" border="1">
-
-      <tr>
-
-        <th style="padding: 5px; text-align: center">Código</th>
-        <th style="padding: 5px; text-align: center">Producto</th>
-        <th style="padding: 5px; text-align: center">Stock</th>
-
-        <th style="padding: 5px; text-align: center">Precio</th>
-
-        <th style="padding: 5px; text-align: center">Mínimo</th>
-        <th style="padding: 5px; text-align: center">Acciones</th>
-      </tr>
-      <tr *ngFor="let producto of productos">
-        <td overflow-scroll=" true " style="padding: 5px; text-align: center">{{producto.codigo}}</td>
-        <td style="padding: 5px; text-align: center">{{producto.nombre}}</td>
-        <td style="padding: 5px; text-align: center">
-          <button ion-button clear>{{producto.stock}} ({{producto.unidad.nombre}})</button>
-        </td>
-
-        <td style="padding: 5px; text-align: center">${{producto.precio}}</td>
-
-        <td style="padding: 5px; text-align: center">{{producto.minimo}}</td>
-        <td style="padding: 5px; text-align: center">
-          <button ion-button round icon-only small (click)="agregarStock(producto)">
-            <ion-icon name="md-add"></ion-icon>
-          </button>
-          <button ion-button small icon-only color="secondary" (click)="modificarItem(producto)" round>
-            <ion-icon name="md-create"></ion-icon>
-          </button>
-          <button ion-button small icon-only color="light" (click)="listarPrecios(producto)" round>
-            <ion-icon name="logo-usd"></ion-icon>
-          </button>
-          <button ion-button small icon-only color="danger" (click)="desactivarItem(producto)" round>
-            <ion-icon name="md-trash"></ion-icon>
-          </button>
-        </td>
-      </tr>
-
-
-    </table>
 
 
 
-  </ion-grid>
 
 
 

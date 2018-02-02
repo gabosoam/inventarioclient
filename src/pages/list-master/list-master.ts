@@ -134,15 +134,41 @@ export class ListMasterPage {
  
 
   public print() {
-    var contenido= document.getElementById('boleta').innerHTML;
-     var contenidoOriginal= document.body.innerHTML;
 
-     document.body.innerHTML = contenido;
+    var mywindow = window.open('', 'PRINT', 'height=400,width=600');
 
-     window.print();
-     window.close();
+    mywindow.document.write('<html><head><title>' + document.title  + '</title>');
+    mywindow.document.write('</head><body >');
+    mywindow.document.write('<h1>' + document.title  + '</h1>');
+    mywindow.document.write(document.getElementById('boleta').innerHTML);
+    mywindow.document.write('</body></html>');
 
-     document.body.innerHTML = contenidoOriginal;
+    mywindow.document.close(); // necessary for IE >= 10
+    mywindow.focus(); // necessary for IE >= 10*/
+
+    mywindow.print();
+    mywindow.close();
+
+    return true;
+
+  //   var printContents = document.getElementById('boleta').innerHTML;
+  // var popupWin = window.open('', '_blank', 'width=600,height=600');
+  // popupWin.document.open();
+  // popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + printContents + '</body></html>');
+  // popupWin.document.close();
+  // return true;
+
+
+
+    // var contenido= document.getElementById('boleta').innerHTML;
+    //  var contenidoOriginal= document.body.innerHTML;
+
+    //  document.body.innerHTML = contenido;
+
+    //  window.print();
+    //  window.close();
+
+    //  document.body.innerHTML = contenidoOriginal;
   }
 
   onError() {
@@ -177,8 +203,9 @@ export class ListMasterPage {
 
   obtenerDetalles() {
     this.items.obtenerDetalles(this.factura.id).subscribe(res => {
-
+     
       this.detalles = res;
+
       this.calcularTotal();
     });
 
@@ -213,7 +240,21 @@ export class ListMasterPage {
          //  let addModal = this.modalCtrl.create('ItemCreatePage');
     let addModal = this.modalCtrl.create('CantidadPage', { producto: {id: resultado[0].id}});
     addModal.onDidDismiss(data => {
-     alert(JSON.stringify(data))
+      if (data) {
+        var detalle = {
+          factura: this.factura.id,
+          cantidad: data.cantidad,
+          producto: resultado[0].id,
+          precio: data.precio.precio,
+          unidad: data.precio.unidad.nombre
+        }
+    
+        this.items.generarIngreso(detalle).subscribe((res:any)=>{
+        
+         this.obtenerDetalles()
+        })
+      }
+ 
       
     })
     addModal.present();
@@ -288,105 +329,26 @@ export class ListMasterPage {
     let addModal = this.modalCtrl.create('BuscarproductoPage');
     addModal.onDidDismiss(producto => {
       if (producto) {
-        switch (producto.tipo) {
-          case 'unidad':
-          let prompt2 = this.alertCtrl.create({
-            title: producto.nombre,
-            message: "Ingrese la cantidad igual o inferior a: " + producto.stock,
-            inputs: [
-              {
-                name: 'producto',
-                placeholder: 'Producto',
-                type: 'hidden',
-                value: producto.id,
-                disabled: true,
-              },
-              {
-                name: 'cantidad',
-                placeholder: 'Cantidad',
-                type: 'number',
-                min: 0.1,
-                max: producto.stock,
-
-
-              },
-            ],
-            buttons: [
-              {
-                text: 'Cancelar',
-                handler: data => {
-                  // console.log('Cancel clicked');
-                }
-              },
-              {
-                text: 'Vender',
-                handler: data => {
-                  alert(JSON.stringify(data))
-                  var precio = data.cantidad * producto.precio;
-
-                  this.items.generarIngreso(this.factura.id, data.cantidad, producto.id, producto.precio).subscribe(resp => {
-                    this.obtenerDetalles();
-                    this.cbxProducto = '';
-
-
-                  });
-                }
-              }
-            ]
-          });
-          prompt2.present();
-            break;
-
-          case 'granel':
-
-            let prompt = this.alertCtrl.create({
-              title: 'Venta en granel - ' + producto.nombre,
-              message: "Ingrese la cantidad igual o inferior a: " + producto.stock,
-              inputs: [
-                {
-                  name: 'producto',
-                  placeholder: 'Producto',
-                  type: 'hidden',
-                  value: producto.id,
-                  disabled: true,
-                },
-                {
-                  name: 'cantidad',
-                  placeholder: 'Cantidad',
-                  type: 'number',
-                  min: 0.1,
-                  max: producto.stock,
-
-
-                },
-              ],
-              buttons: [
-                {
-                  text: 'Cancelar',
-                  handler: data => {
-                    // console.log('Cancel clicked');
-                  }
-                },
-                {
-                  text: 'Vender',
-                  handler: data => {
-                    var precio = data.cantidad * producto.precio;
-
-                    this.items.generarIngreso(this.factura.id, data.cantidad, producto.id, producto.precio).subscribe(resp => {
-                      this.obtenerDetalles();
-                      this.cbxProducto = '';
-
-
-                    });
-                  }
-                }
-              ]
-            });
-            prompt.present();
-
-            break;
-        }
-
+        let addModal = this.modalCtrl.create('CantidadPage', { producto: {id: producto.id}});
+        addModal.onDidDismiss(data => {
+          if (data) {
+            var detalle = {
+              factura: this.factura.id,
+              cantidad: data.cantidad,
+              producto: producto.id,
+              precio: data.precio.precio,
+              unidad: data.precio.unidad.nombre
+            }
+        
+            this.items.generarIngreso(detalle).subscribe((res:any)=>{
+            
+             this.obtenerDetalles()
+            })
+          }
+      
+          
+        })
+        addModal.present();
       
       }
     })

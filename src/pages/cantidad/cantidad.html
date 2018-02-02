@@ -1,43 +1,40 @@
-<!--
-  Generated template for the StockPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
-<ion-header>
-
-  <ion-navbar>
-    <ion-title>Cantidad</ion-title>
-  </ion-navbar>
-
-</ion-header>
-
-
-<ion-content padding>
-  <form id="container" [formGroup]="formCodigo" (ngSubmit)="gestionar()">
-
-    <ion-list>
-        <ion-list radio-group [(ngModel)]="unidad"   formControlName="unidad">
-            <ion-item *ngFor="let item of items">
-              <ion-label>{{item.unidad.nombre}}</ion-label>
-              <ion-radio  value={{item.unidad}} ></ion-radio>
-            </ion-item>
+<ion-content>
+    <div class="w3-container w3-blue">
+      <h3>Cantidad</h3>
+    </div>
+  
+    <form id="container" [formGroup]="formCodigo" (ngSubmit)="gestionar()">
+  
+      <div class="w3-container w3-row">
+        <div class="w3-col s12 m4 l4 w3-padding">
+            <label class="w3-text-blue">
+                <b>Unidad</b>
+              </label>
+              <select [(ngModel)]="unidad"  class="w3-select w3-border w3-round w3-white" name="option" formControlName="unidad">
+                <option value="" disabled selected>Elige una opción</option>
         
-          </ion-list>
-
-      <ion-item>
-        <ion-label stacked>Cantidad</ion-label>
-        <ion-input  type="number" value="" formControlName="cantidad"></ion-input>
-      </ion-item>
-
-
-      <ion-item>
-        <button ion-button>Guardar</button>
-      </ion-item>
-    </ion-list>
-  </form>
-  <ion-list>
-
-  </ion-list>
-
-</ion-content>
+                <option *ngFor="let item of items" value="{{item.id}}">{{item.unidad.nombre}}</option>
+        
+              </select>
+        </div>
+  
+        <div class="w3-col s12 m4 l4 w3-padding">
+            <label class="w3-text-blue">
+                <b>Cantidad</b>
+              </label>
+              <input class="w3-input w3-border w3-round" placeholder="Cantidad" autofocus formControlName="cantidad" type="number">
+        
+        
+        </div>
+  
+        
+      </div>
+      <div class="w3-container w3-padding">
+          <button class="w3-btn w3-blue w3-round  ">Guardar</button>
+      </div>
+  
+  
+    </form>
+  
+  
+  </ion-content>

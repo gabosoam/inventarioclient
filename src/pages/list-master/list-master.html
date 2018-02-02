@@ -1,18 +1,11 @@
-<ion-header>
 
-  <ion-navbar>
-    <ion-title>Comprobante # {{factura.id}}</ion-title>
-
-    <ion-buttons end>
-      <button ion-button icon-only (click)="addItem()">
-        <ion-icon name="add"></ion-icon>
-      </button>
-    </ion-buttons>
-  </ion-navbar>
-
-</ion-header>
 
 <ion-content>
+
+    <div class="w3-container w3-blue">
+        <h2>Comprobante # {{factura.id}}</h2>
+      </div>
+    
 
   <ion-grid>
 
@@ -85,44 +78,25 @@
                             </ion-grid>
 
                           </td>
-                          <td colspan="1" style="max-width: 3cm">
+                          <td class="w3-padding" colspan="1" style="max-width: 3cm">
 
-                            <ion-item>
-                              <ion-label>Recibido: $</ion-label>
-                              <ion-input large type="number" [(ngModel)]="recibido" (change)="calcular()"></ion-input>
-                            </ion-item>
-                            <ion-item>
-                              <ion-label>Vuelto: $</ion-label>
-                              <ion-input type="number" value="0.00" [(ngModel)]="vuelto"></ion-input>
-                            </ion-item>
+                              <label class="w3-text-blue">
+                                  <b>Dinero recibido</b>
+                                </label>
+                                <input class="w3-input w3-border w3-round" placeholder="Dinero recibido" type="number" [(ngModel)]="recibido" (change)="calcular()">
+                          
+                                <label class="w3-text-blue">
+                                    <b>Vuelto</b>
+                                  </label>
+                                  <input class="w3-input w3-border w3-round" placeholder="Vuelto" type="number" value="0.00" [(ngModel)]="vuelto">
+                            
+                           
 
 
 
                           </td>
                         </tr>
-                        <tr>
-                          <th style="padding: 5px; text-align: center">Cantidad</th>
-                          <th style="padding: 5px; text-align: center">Código</th>
-                          <th style="padding: 5px; text-align: center">Producto</th>
-                          <th style="padding: 5px; text-align: center">Unidad</th>
-                          <th style="padding: 5px; text-align: center">Unitario</th>
-                          <th style="padding: 5px; text-align: center">Total</th>
-                          <th style="padding: 5px; text-align: center">Acciones</th>
-                        </tr>
-                        <tr *ngFor="let detalle of detalles">
-                          <td style="padding: 5px; text-align: center">{{detalle.cantidad}}</td>
-                          <td style="padding: 5px; text-align: center">{{detalle.rawcodigo}}</td>
-                          <td style="padding: 5px; text-align: center">{{detalle.producto}}</td>
-                          <td style="padding: 5px; text-align: center">{{detalle.unidad}}</td>
-                          <td style="padding: 5px; text-align: center">${{detalle.unitario}}</td>
-                          <td style="padding: 5px; text-align: center">${{detalle.total}}</td>
-                          <td style="padding: 5px; text-align: center">
-
-                            <button ion-button small icon-only color="danger" (click)="borrarDetalle(detalle.id)" round>
-                              <ion-icon name="md-trash"></ion-icon>
-                            </button>
-                          </td>
-                        </tr>
+                     
 
 
                       </table>
@@ -152,7 +126,31 @@
 
     </ion-row>
   </ion-grid>
+  <table class="w3-table w3-striped w3-bordered  w3-round">
+  <tr class="w3-dark-gray">
+      <th >Cantidad</th>
+      <th >Código</th>
+      <th >Producto</th>
+      <th >Unidad</th>
+      <th >Unitario</th>
+      <th >Total</th>
+      <th >Acciones</th>
+    </tr>
+    <tr *ngFor="let detalle of detalles">
+      <td >{{detalle.cantidad}}</td>
+      <td >{{detalle.codigo}}</td>
+      <td >{{detalle.producto}}</td>
+      <td >{{detalle.unidad}}</td>
+      <td >${{detalle.unitario}}</td>
+      <td >${{detalle.total}}</td>
+      <td >
 
+        <button ion-button small icon-only color="danger" (click)="borrarDetalle(detalle.id)" round>
+          <ion-icon name="md-trash"></ion-icon>
+        </button>
+      </td>
+    </tr>
+  </table>
 
 
 

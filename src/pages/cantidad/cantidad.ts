@@ -31,31 +31,29 @@ export class CantidadPage {
     this.formCodigo = formBuilder.group({
 
       unidad: ['', Validators.required],
-      cantidad: ['', Validators.required],
-      tamano: ['', Validators.required]
+      cantidad: ['', Validators.required]
     });
 
     this.obtenerPrecios();
   }
 
-  cambiar(producto){
+  cambiar(producto) {
     alert(JSON.stringify(producto));
   }
 
-  gestionar(producto){
-    alert(JSON.stringify(this.formCodigo.value))
-    // var total = this.formCodigo.value.cantidad*this.formCodigo.value.unidad;
-    // var data ={
-    //   cantidad: this.formCodigo.value.cantidad,
-    //   precio: this.formCodigo.value.unidad
-    // }
+  gestionar() {
+    this.service.obtenerPrecio(this.formCodigo.value.unidad).subscribe((res: any) => {
+      if (this.formCodigo.valid) {
+        this.viewCtrl.dismiss({ cantidad: this.formCodigo.value.cantidad, precio: res });
+      } else {
 
-    // if (this.formCodigo.valid) {
-    //   this.viewCtrl.dismiss(data);
-    // } else {
-      
-    // }
-    
+      }
+    })
+
+
+
+
+
   }
 
 
@@ -70,6 +68,7 @@ export class CantidadPage {
     seq.subscribe((res) => {
       console.log(res)
       this.items = res;
+ 
     })
   }
 }

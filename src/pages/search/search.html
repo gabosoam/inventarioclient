@@ -1,123 +1,72 @@
-<ion-header>
-
-  <ion-navbar>
-      <ion-title>Crear producto</ion-title>
-  
-  </ion-navbar>
-
-</ion-header>
-
-
 <ion-content>
-    <form id="container" *ngIf="form2" [formGroup]="form2" (ngSubmit)="saludar()">
-        <ion-searchbar [(ngModel)]="cbxProducto"  formControlName="name" placeholder="Buscar producto por código">
-        </ion-searchbar>
-      </form>
-  <ion-grid>
-    <ion-row>
-      <ion-col col-12>
 
-          <hr>
-          <div>
-            <ion-list>
-              <form id="container" *ngIf="form" [formGroup]="form" (ngSubmit)="registrar()">
-                <ion-item>
-                  <ion-label stacked>Código</ion-label>
-                  <ion-input placeholder="Código de barras del producto" autofocus formControlName="codigo" type="text"></ion-input>
-                </ion-item>
-                <ion-item>
-                  <ion-label stacked>Nombre</ion-label>
-                  <ion-input placeholder="Nombre del producto" type="text" formControlName="nombre"></ion-input>
-                </ion-item>
-                <ion-row>
+  <div class="w3-container w3-blue">
+    <h3>Crear producto</h3>
+  </div>
 
+  <form id="container" *ngIf="form2" [formGroup]="form2" (ngSubmit)="saludar()">
+    <ion-searchbar [(ngModel)]="cbxProducto" formControlName="name" placeholder="Buscar producto por código">
+    </ion-searchbar>
+  </form>
 
-                  <ion-item>
-                    <ion-label stacked>Unidad</ion-label>
-                    <ion-select formControlName="unidad">
-                        <ion-option disabled  value="">Seleccionar una unidad</ion-option>
-                      <ion-option *ngFor="let unidad of unidades" value={{unidad.id}}>{{unidad.nombre}}</ion-option>
+  <form class="w3-container" id="container" *ngIf="form" [formGroup]="form" (ngSubmit)="registrar()">
 
-                    </ion-select>
-                  </ion-item>
+    <label class="w3-text-blue">
+      <b>Código</b>
+    </label>
+    <input class="w3-input w3-border w3-round" placeholder="Código de barras del producto" autofocus formControlName="codigo"
+      type="text">
 
-                  <ion-item>
-                    <ion-label stacked>Precio venta</ion-label>
-                    <ion-input placeholder="Precio de venta del producto" type="number" formControlName="precio"></ion-input>
-                  </ion-item>
+    <label class="w3-text-blue">
+      <b>Nombre</b>
+    </label>
+    <input class="w3-input w3-border w3-round" placeholder="Nombre del producto" autofocus formControlName="nombre" type="text">
 
-                  <ion-item>
-                    <ion-label stacked>Marca</ion-label>
-                    <ion-select formControlName="marca">
-                        <ion-option disabled  value="">Seleccionar una marca</ion-option>
-                      <ion-option *ngFor="let marca of marcas" value={{marca.id}}>{{marca.nombre}}</ion-option>
+    <label class="w3-text-blue">
+      <b>Unidad</b>
+    </label>
+    <select class="w3-select w3-border w3-round w3-white" name="option" formControlName="unidad">
+      <option value="" disabled selected>Elige una opción</option>
+      <option *ngFor="let unidad of unidades" value={{unidad.id}}>{{unidad.nombre}}</option>
 
-                    </ion-select>
-                  </ion-item>
+    </select>
 
+    <label class="w3-text-blue">
+      <b>Marca</b>
+    </label>
+    <select class="w3-select w3-border w3-round w3-white" name="option" formControlName="marca">
+      <option value="" disabled selected>Elige una opción</option>
+      <option *ngFor="let marca of marcas" value={{marca.id}}>{{marca.nombre}}</option>
 
+    </select>
+    <label class="w3-text-blue">
+      <b>Categoría</b>
+    </label>
+    <select class="w3-select w3-border w3-round w3-white" name="option" formControlName="categoria">
+      <option value="" disabled selected>Elige una opción</option>
+      <option *ngFor="let categoria of categorias" value={{categoria.id}}>{{categoria.nombre}}</option>
 
-                  <ion-item>
-                    <ion-label stacked>Categoría</ion-label>
-                    <ion-select formControlName="categoria" >
-                        <ion-option disabled  value="">Seleccionar una categoría</ion-option>
-                      <ion-option *ngFor="let categoria of categorias" value="{{categoria.id}}">{{categoria.nombre}}</ion-option>
+    </select>
 
-                    </ion-select>
-                  </ion-item>
+    <label class="w3-text-blue">
+        <b>Precio</b>
+      </label>
+      <input class="w3-input w3-border w3-round" placeholder="Precio del producto" autofocus formControlName="precio" type="number">
+  
+      <label class="w3-text-blue">
+          <b>Stock inicial</b>
+        </label>
+        <input class="w3-input w3-border w3-round" placeholder="Stock inicial" autofocus formControlName="stock" type="number">
+  
+        <label class="w3-text-blue">
+            <b>Stock mínimo</b>
+          </label>
+          <input class="w3-input w3-border w3-round" placeholder="Stock mínimo" autofocus formControlName="minimo" type="number">
+      
 
-                  <ion-item>
-                    <ion-label stacked>Existencia actual</ion-label>
-                    <ion-input placeholder="Cantidad en bodega" type="number" formControlName="stock"></ion-input>
-                  </ion-item>
+  </form>
+  <button ion-button (click)="registrar()">Guardar</button>
 
-                  <ion-item>
-                    <ion-label stacked>Existencia mínima</ion-label>
-                    <ion-input type="number" formControlName="minimo"></ion-input>
-                  </ion-item>
-
-
-
-
-
-
-
-
-
-
-
-
-                </ion-row>
-
-
-
-
-
-
-
-
-
-
-
-              </form>
-              <hr>
-              <ion-col col-3>
-                <button ion-button (click)="registrar()">Guardar</button>
-              </ion-col>
-
-            </ion-list>
-          </div>
-          <div padding>
-
-          </div>
-
-   
-
-
-
-      </ion-col>
-    </ion-row>
-  </ion-grid>
 
 
 

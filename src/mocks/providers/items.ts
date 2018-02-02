@@ -113,10 +113,7 @@ export class Items {
   }
 
   obtenerMarcas() {
-
-
     let seq = this.api.get('marca?sort=nombre&limit=300').share();
-
     seq.subscribe((res: any) => {
       // If the API returned a successful response, mark the user as logged in
       if (res.status == 'success') {
@@ -126,9 +123,12 @@ export class Items {
     }, err => {
       console.error('ERROR', err);
     });
-
     return seq;
+  }
 
+  obtenerPrecio(precio){
+    let seq = this.api.get('precio/'+precio).share();
+    return seq;
   }
 
 
@@ -298,8 +298,8 @@ export class Items {
     return seq;
   }
 
-  generarIngreso(factura, cantidad, producto, precio) {
-    let seq = this.api.post('detalle/', { factura: factura, cantidad: cantidad, producto: producto, precio: precio }).share();
+  generarIngreso(detalle) {
+    let seq = this.api.post('detalle/', detalle).share();
 
     seq.subscribe((res: any) => {
       this.ingfactura(res);
