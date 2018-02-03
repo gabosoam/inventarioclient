@@ -5,6 +5,7 @@ import { Item } from '../../models/item';
 import { Items } from '../../providers/providers';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SearchPage2 } from '../pages';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 @IonicPage()
 @Component({
@@ -31,7 +32,8 @@ export class SearchPage {
     public items: Items,
     formBuilder: FormBuilder,
     public alertCtrl: AlertController,
-    public viewCtrl: ViewController) {
+    public viewCtrl: ViewController,
+    private barcodeScanner: BarcodeScanner) {
 
     this.form2 = formBuilder.group({
       name: ['', Validators.required]
@@ -62,15 +64,70 @@ export class SearchPage {
 
   }
 
+  escanear() {
+    this.barcodeScanner.scan().then((barcodeData) => {
+      var seq = this.items.buscarProducto(barcodeData.text).share();
+
+      seq.subscribe((res: any) => {
+
+        if (res.length == 1) {
+
+
+          // this.validador = true;
+
+          // this.idProducto = res[0].id;
+
+
+          this.form.setValue({
+            codigo: res[0].codigo,
+            nombre: res[0].nombre,
+            marca: '',
+            categoria: '',
+            precio: 0,
+            stock: 0,
+            minimo: 1,
+            unidad: '',
+            estado: 1,
+          })
+
+        } else {
+          this.form.reset();
+          this.form.setValue({
+            codigo: barcodeData.text,
+            nombre: '',
+            marca: '',
+            categoria: '',
+            precio: 0,
+            stock: 0,
+            minimo: 1,
+            unidad: '',
+            estado: 1,
+          })
+          this.validador = false;
+        }
+      }, err => {
+        this.validador == false;
+        let alert = this.alertCtrl.create({
+          title: 'Error!',
+          subTitle: 'Existió un error ',
+          buttons: ['OK']
+        });
+        alert.present();
+      });
+    }, (err) => {
+      // An error occurred
+    });
+  }
+
   saludar() {
 
     var seq = this.items.buscarProducto(this.form2.value.name).share();
-   
+
     seq.subscribe((res: any) => {
-   
+
       if (res.length == 1) {
 
-        
+
         // this.validador = true;
 
         // this.idProducto = res[0].id;
@@ -101,6 +158,10 @@ export class SearchPage {
       });
       alert.present();
     });
+  }
+
+  cancelar(){
+    this.viewCtrl.dismiss();
   }
 
   registrar() {

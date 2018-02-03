@@ -4,6 +4,8 @@
     <h3>Crear producto</h3>
   </div>
 
+  <button ion-button (click)="escanear()" >Escanear cóðigo</button>
+
   <form id="container" *ngIf="form2" [formGroup]="form2" (ngSubmit)="saludar()">
     <ion-searchbar [(ngModel)]="cbxProducto" formControlName="name" placeholder="Buscar producto por código">
     </ion-searchbar>
@@ -66,6 +68,7 @@
 
   </form>
   <button ion-button (click)="registrar()">Guardar</button>
+  <button ion-button (click)="cancelar()">Cancelar</button>
 
 
 
