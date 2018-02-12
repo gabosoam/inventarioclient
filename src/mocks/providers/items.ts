@@ -104,6 +104,14 @@ export class Items {
 
   }
 
+  cargarEnCero(){
+    let seq = this.api.get('producto/acabados').share();
+    
+
+    return seq;
+    
+  }
+
   buscarProductoCodigo(codigo) {
     let seq = this.api.get('producto?codigo='+codigo+'&estado=1').share();
     
@@ -112,19 +120,43 @@ export class Items {
 
   }
 
-  obtenerMarcas() {
-    let seq = this.api.get('marca?sort=nombre&limit=300').share();
-    seq.subscribe((res: any) => {
-      // If the API returned a successful response, mark the user as logged in
-      if (res.status == 'success') {
-        console.log(res);
-      } else {
-      }
-    }, err => {
-      console.error('ERROR', err);
-    });
+  todosProductos(){
+    let seq = this.api.get('producto').share();
+    
     return seq;
   }
+
+  obtenerMarcas() {
+    let seq = this.api.get('marca?sort=nombre asc').share();
+    
+    return seq;
+  }
+
+  
+
+obtenerProductosEnCero(){
+  let seq = this.api.get('producto?stock=0 ').share();
+    
+    return seq;
+}
+
+obtenerPorCategoria(categoria){
+  let seq = this.api.get('producto?categoria= '+categoria).share();
+    
+    return seq;
+}
+
+obtenerPorMarca(marca){
+  let seq = this.api.get('producto?marca= '+marca).share();
+    
+    return seq;
+}
+
+precioCero(){
+  let seq = this.api.get('producto?precio=0 ').share();
+    
+    return seq;
+}
 
   obtenerPrecio(precio){
     let seq = this.api.get('precio/'+precio).share();
@@ -153,7 +185,7 @@ export class Items {
 
   obtenerCategorias() {
 
-    let seq = this.api.get('categoria?sort=nombre&limit=100').share();
+    let seq = this.api.get('categoria?sort=nombre asc').share();
 
   
     return seq;

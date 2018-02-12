@@ -64,18 +64,18 @@
                           <td colspan="4">
                             <ion-grid>
                               <ion-row>
-                                <ion-col col-11>
+                                <ion-col col-12>
                                   <form id="container2" *ngIf="form" [formGroup]="form" (ngSubmit)="saludar()">
-                                    <ion-searchbar style="width: 100%" autofocus formControlName="name" placeholder="Ingresar código de barras">
-                                    </ion-searchbar>
+                                    <input class="w3-input w3-border w3-round w3-xlarge" formControlName="name" placeholder="Ingresar código de barras" type="text">
+
+                                    
                                   </form>
-
-
+                                  
                                 </ion-col>
                                 <ion-col col-1>
-                                  <button ion-button icon-only round (click)="buscar()">
+                                  <button ion-button icon-left  (click)="buscar()">
                                     <ion-icon name="md-search"></ion-icon>
-
+                                    Buscar producto
                                   </button>
 
                                 </ion-col>
@@ -131,7 +131,7 @@
 
     </ion-row>
   </ion-grid>
-  <table class="w3-table w3-striped w3-bordered  w3-round">
+  <table class="w3-table w3-striped w3-bordered  w3-round w3-large">
   <tr class="w3-dark-gray">
       <th >Cantidad</th>
       <th >Código</th>
@@ -140,6 +140,7 @@
       <th >Unitario</th>
       <th >Total</th>
       <th >Acciones</th>
+      <th class="w3-blue">Stock</th>
     </tr>
     <tr *ngFor="let detalle of detalles">
       <td >{{detalle.cantidad}}</td>
@@ -154,6 +155,8 @@
           <ion-icon name="md-trash"></ion-icon>
         </button>
       </td>
+
+      <td  >{{detalle.stock}}</td>
     </tr>
   </table>
 

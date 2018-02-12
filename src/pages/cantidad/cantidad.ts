@@ -44,9 +44,14 @@ export class CantidadPage {
   gestionar() {
     this.service.obtenerPrecio(this.formCodigo.value.unidad).subscribe((res: any) => {
       if (this.formCodigo.valid) {
-        this.viewCtrl.dismiss({ cantidad: this.formCodigo.value.cantidad, precio: res });
+        if (this.formCodigo.value.cantidad<=0) {
+          alert("No se puede ingresar cantidades igual o menor a cero")
+        } else {
+          this.viewCtrl.dismiss({ cantidad: this.formCodigo.value.cantidad, precio: res });
+        }
+        
       } else {
-
+        alert("Completa todos los campos")
       }
     })
 
@@ -66,7 +71,7 @@ export class CantidadPage {
 
     let seq = this.service.obtenerPrecios(this.prod.id);
     seq.subscribe((res) => {
-      console.log(res)
+     
       this.items = res;
  
     })

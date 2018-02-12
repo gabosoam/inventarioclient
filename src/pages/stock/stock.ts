@@ -30,7 +30,7 @@ export class StockPage {
 
     this.formCodigo = formBuilder.group({
    
-      unidad: ['', Validators.required],
+      unidad: ['', Validators.required,],
       cantidad: ['1', Validators.required]
     });
 

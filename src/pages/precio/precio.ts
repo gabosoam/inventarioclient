@@ -114,6 +114,9 @@ export class PrecioPage {
 
       switch (this.accion) {
         case 'editar':
+        if (this.formCodigo.value.tamano<=0 || this.formCodigo.value.precio<=0) {
+          alert("No se puede ingresar valores igual o menores a cero")
+        } else {
           let seq = this.service.modificarPrecio(this.formCodigo.value);
           seq.subscribe((res) => {
             this.obtenerPrecios();
@@ -123,23 +126,32 @@ export class PrecioPage {
             this.id = "";
             this.nuevo();
           })
+        }
+         
           break;
 
         case 'nuevo':
-        let seq2 = this.service.agregarPrecio({
-          producto: this.formCodigo.value.producto,
-          unidad: this.formCodigo.value.unidad,
-          tamano: this.formCodigo.value.tamano,
-          precio: this.formCodigo.value.precio,
-        });
-          seq2.subscribe((res) => {
-       
-            this.obtenerPrecios();
-            this.unidad = "";
-            this.precio = "";
-            this.tamano = "";
-            this.id = "";
-          })
+          if (this.formCodigo.value.tamano<=0 || this.formCodigo.value.precio<=0) {
+            alert("No se puede ingresar valores igual o menores a cero")
+          } else {
+            let seq2 = this.service.agregarPrecio({
+              producto: this.formCodigo.value.producto,
+              unidad: this.formCodigo.value.unidad,
+              tamano: this.formCodigo.value.tamano,
+              precio: this.formCodigo.value.precio,
+            });
+              seq2.subscribe((res) => {
+           
+                this.obtenerPrecios();
+                this.unidad = "";
+                this.precio = "";
+                this.tamano = "";
+                this.id = "";
+              })
+            
+          }
+
+        
           break;
       }
 

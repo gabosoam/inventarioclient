@@ -131,15 +131,15 @@ export class ListMasterPage {
 
   }
 
- 
+
 
   public print() {
 
     var mywindow = window.open('', 'PRINT', 'height=400,width=600');
 
-    mywindow.document.write('<html><head><title>' + document.title  + '</title>');
+    mywindow.document.write('<html><head><title>' + document.title + '</title>');
     mywindow.document.write('</head><body >');
-    mywindow.document.write('<h1>' + document.title  + '</h1>');
+    mywindow.document.write('<h1>' + document.title + '</h1>');
     mywindow.document.write(document.getElementById('boleta').innerHTML);
     mywindow.document.write('</body></html>');
 
@@ -151,24 +151,6 @@ export class ListMasterPage {
 
     return true;
 
-  //   var printContents = document.getElementById('boleta').innerHTML;
-  // var popupWin = window.open('', '_blank', 'width=600,height=600');
-  // popupWin.document.open();
-  // popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + printContents + '</body></html>');
-  // popupWin.document.close();
-  // return true;
-
-
-
-    // var contenido= document.getElementById('boleta').innerHTML;
-    //  var contenidoOriginal= document.body.innerHTML;
-
-    //  document.body.innerHTML = contenido;
-
-    //  window.print();
-    //  window.close();
-
-    //  document.body.innerHTML = contenidoOriginal;
   }
 
   onError() {
@@ -203,7 +185,7 @@ export class ListMasterPage {
 
   obtenerDetalles() {
     this.items.obtenerDetalles(this.factura.id).subscribe(res => {
-     
+
       this.detalles = res;
 
       this.calcularTotal();
@@ -234,33 +216,64 @@ export class ListMasterPage {
 
 
 
-    this.items.buscarProductoCodigo(this.form.value.name).subscribe((resultado: any)=>{
-    if (resultado.length>0) {
+    this.items.buscarProductoCodigo(this.form.value.name).subscribe((resultado: any) => {
+      if (resultado.length > 0) {
+
+        //  let addModal = this.modalCtrl.create('ItemCreatePage');
+        let addModal = this.modalCtrl.create('CantidadPage', { producto: { id: resultado[0].id } });
+        addModal.onDidDismiss(data => {
+          if (data) {
+            var detalle = {
+              factura: this.factura.id,
+              cantidad: data.cantidad,
+              producto: resultado[0].id,
+              precio: data.precio.precio,
+              unidad: data.precio.unidad.nombre,
+              reducir: data.cantidad/data.precio.tamano
+            }
+            
+
+            if (data.cantidad/data.precio.tamano>resultado[0].stock) {
       
-         //  let addModal = this.modalCtrl.create('ItemCreatePage');
-    let addModal = this.modalCtrl.create('CantidadPage', { producto: {id: resultado[0].id}});
-    addModal.onDidDismiss(data => {
-      if (data) {
-        var detalle = {
-          factura: this.factura.id,
-          cantidad: data.cantidad,
-          producto: resultado[0].id,
-          precio: data.precio.precio,
-          unidad: data.precio.unidad.nombre
-        }
-    
-        this.items.generarIngreso(detalle).subscribe((res:any)=>{
-        
-         this.obtenerDetalles()
+              let confirm = this.alertCtrl.create({
+                title: 'Atención!',
+                message: 'Tienes menos stock del solicitado. Deseas continuar?',
+                buttons: [
+                  {
+                    text: 'Cancelar',
+                    handler: () => {
+                      console.log('Disagree clicked');
+                    }
+                  },
+                  {
+                    text: 'Aceptar',
+                    handler: () => {
+                      this.items.generarIngreso(detalle).subscribe((res: any) => {
+
+                        this.obtenerDetalles()
+                      })
+                    }
+                  }
+                ]
+              });
+              confirm.present();
+            } else {
+              this.items.generarIngreso(detalle).subscribe((res: any) => {
+
+                this.obtenerDetalles()
+              })
+            }
+
+
+           
+          }
+
+
         })
+        addModal.present();
+      } else {
+        alert('No existe el código ingresado')
       }
- 
-      
-    })
-    addModal.present();
-    } else {
-      alert('No existe el código ingresado')
-    }
     })
 
 
@@ -329,7 +342,7 @@ export class ListMasterPage {
     let addModal = this.modalCtrl.create('BuscarproductoPage');
     addModal.onDidDismiss(producto => {
       if (producto) {
-        let addModal = this.modalCtrl.create('CantidadPage', { producto: {id: producto.id}});
+        let addModal = this.modalCtrl.create('CantidadPage', { producto: { id: producto.id } });
         addModal.onDidDismiss(data => {
           if (data) {
             var detalle = {
@@ -337,19 +350,20 @@ export class ListMasterPage {
               cantidad: data.cantidad,
               producto: producto.id,
               precio: data.precio.precio,
-              unidad: data.precio.unidad.nombre
+              unidad: data.precio.unidad.nombre,
+              reducir: data.cantidad/data.precio.tamano
             }
-        
-            this.items.generarIngreso(detalle).subscribe((res:any)=>{
-            
-             this.obtenerDetalles()
+
+            this.items.generarIngreso(detalle).subscribe((res: any) => {
+
+              this.obtenerDetalles()
             })
           }
-      
-          
+
+
         })
         addModal.present();
-      
+
       }
     })
     addModal.present();

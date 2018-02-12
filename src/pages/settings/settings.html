@@ -14,7 +14,8 @@
           <label class="w3-text-blue">
             <b>Buscar por código</b>
           </label>
-          <input class="w3-input w3-border w3-round" type="text" [(ngModel)]="codigo" autofocus formControlName="name" placeholder="Buscar por código">
+          <input class="w3-input w3-border w3-round-large w3-large" type="text" [(ngModel)]="codigo" autofocus formControlName="name"
+            placeholder="Buscar por código">
 
 
         </form>
@@ -23,41 +24,115 @@
         <form style="max-width: 100" id="container" *ngIf="form" [formGroup]="form" (ngSubmit)="saludar()">
 
           <label class="w3-text-blue">
-            <b>Buscar por código</b>
+            <b>Buscar por nombre</b>
           </label>
-          <input class="w3-input w3-border w3-round" type="text" autofocus formControlName="name" placeholder="Buscar por nombre">
+          <input class="w3-input w3-border w3-round-large w3-large" type="text" autofocus formControlName="name" placeholder="Buscar por nombre"
+            (ionInput)="saludar()">
         </form>
       </div>
       <div class="w3-col w3-padding s12 m4 l4">
-          <button ion-button (click)="crearProducto()">Crear un producto</button>
+        <!-- <button class="" ion-button (click)="crearProducto()">Crear un producto</button> -->
+        <!-- <button class="" ion-button (click)="todosProductos()">Todos los productos</button> -->
+        <!-- <button class="" ion-button color="danger" (click)="cargarCero()">Por acabarse</button> -->
+        <label class="w3-text-blue">
+          <b>Filtros rápidos</b>
+        </label>
+        <select class="w3-select w3-large w3-round-large" [(ngModel)]="filtro" (change)="filtrar()" name="option">
+          <option value="" selected>Selecciona un filtro...</option>
+          <option value="1">Productos sin stock</option>
+          <option value="2">Productos por terminarse</option>
+          <option value="3">Todos los productos</option>
+          <option value="4">Productos con precio cero</option>
+        </select>
+      </div>
+
+      <div class="w3-col w3-padding s12 m4 l4">
+        <!-- <button class="" ion-button (click)="crearProducto()">Crear un producto</button> -->
+        <!-- <button class="" ion-button (click)="todosProductos()">Todos los productos</button> -->
+        <!-- <button class="" ion-button color="danger" (click)="cargarCero()">Por acabarse</button> -->
+        <label class="w3-text-blue">
+          <b>Categorías</b>
+        </label>
+        <select class="w3-select w3-large w3-round-large" [(ngModel)]="filtroCategoria" (change)="cargarPorCategoria()" name="option">
+          <option value="" disabled selected>Selecciona una categoría...</option>
+          <option *ngFor="let categoria of categorias" value="{{categoria.id}}">{{categoria.nombre}} ({{categoria.productos.length}})</option>
+
+        </select>
+      </div>
+
+      <div class="w3-col w3-padding s12 m4 l4">
+
+        <label class="w3-text-blue">
+          <b>Marcas</b>
+        </label>
+        <select class="w3-select w3-large w3-round-large" name="option" [(ngModel)]="filtroMarca" (change)="cargarPorMarca()">
+          <option value="" disabled selected>Seleccione una marca...</option>
+          <option *ngFor="let marca of marcas" value="{{marca.id}}">{{marca.nombre}} ({{marca.productos.length}})</option>
+
+        </select>
+      </div>
+
+      <div class="w3-col w3-padding s12 m4 l4">
+        <div class="w3-row">
+          <div class="w3-col s12 m4 l4">
+            <label class="w3-text-blue">
+              <b>Acciones</b>
+            </label>
+            <button (click)="print()" class="w3-blue w3-round-large w3-button ">Imprimir</button>
+          </div>
         </div>
+
+
+      </div>
+
     </div>
+
+
   </div>
 
-<div class="">
-    <table class="w3-table w3-striped w3-bordered  w3-round">
+  <div class="">
+
+
+
+    <div class="w3-responsive">
+
+      <div class="w3-padding">
+        <h3>{{resultado}}</h3>
+      </div>
+      <table class="w3-table w3-bordered w3-large">
 
         <tr class="w3-dark-gray">
-    
+
           <th>Código</th>
           <th>Producto</th>
-          <th>Stock</th>
-    
+          <th>Unidad</th>
+          <th>Marca</th>
+          <th>Categoría</th>
           <th>Precio</th>
-    
+          <th>Stock</th>
           <th>Mínimo</th>
+
+
+
           <th>Acciones</th>
         </tr>
         <tr *ngFor="let producto of productos">
-          <td overflow-scroll=" true ">{{producto.codigo}}</td>
-          <td>{{producto.nombre}}</td>
-          <td>
-              {{producto.stock}} ({{producto.unidad.nombre}})
+          <td overflow-scroll=" true ">
+            <input class="w3-input" readonly type="text" value="{{producto.codigo}}">
           </td>
-    
+          <td>{{producto.nombre}}</td>
+          <td>{{producto.unidad.nombre}}</td>
+          <td>{{producto.marca.nombre}}</td>
+          <td>{{producto.categoria.nombre}}</td>
           <td>${{producto.precio}}</td>
-    
-          <td>{{producto.minimo}}</td>
+          <td [class.w3-orange]=" producto.minimo >=producto.stock " [class.w3-red]=" producto.stock <= 0 " [class.w3-green]=" producto.stock > producto.minimo ">
+            {{producto.stock}}
+          </td>
+          <td [class.w3-orange]=" producto.minimo >=producto.stock " [class.w3-red]=" producto.stock <= 0 " [class.w3-green]=" producto.stock > producto.minimo ">{{producto.minimo}}</td>
+
+
+
+
           <td>
             <button ion-button round icon-only small (click)="agregarStock(producto)">
               <ion-icon name="md-add"></ion-icon>
@@ -73,10 +148,15 @@
             </button>
           </td>
         </tr>
-    
-    
+
+
       </table>
-</div>
+    </div>
+
+
+
+
+  </div>
 
 
 
@@ -86,3 +166,51 @@
 
 
 </ion-content>
+
+<div id="boleta" class="w3-responsive">
+
+    <div class="w3-padding">
+      <h3>{{resultado}}</h3>
+    </div>
+    <table class="w3-table " border="1">
+
+      <tr class="w3-dark-gray">
+
+        <th>Código</th>
+        <th>Producto</th>
+        <th>Unidad</th>
+        <th>Marca</th>
+        <th>Categoría</th>
+        <th>Precio</th>
+        <th>Stock</th>
+        <th>Mínimo</th>
+
+
+
+        <th>Comentario</th>
+      </tr>
+      <tr *ngFor="let producto of productos">
+        <td overflow-scroll=" true ">
+          {{producto.codigo}} 
+        </td>
+        <td>{{producto.nombre}}</td>
+        <td>{{producto.unidad.nombre}}</td>
+        <td>{{producto.marca.nombre}}</td>
+        <td>{{producto.categoria.nombre}}</td>
+        <td>${{producto.precio}}</td>
+        <td [class.w3-orange]=" producto.minimo >=producto.stock " [class.w3-red]=" producto.stock <= 0 " [class.w3-green]=" producto.stock > producto.minimo ">
+          {{producto.stock}}
+        </td>
+        <td [class.w3-orange]=" producto.minimo >=producto.stock " [class.w3-red]=" producto.stock <= 0 " [class.w3-green]=" producto.stock > producto.minimo ">{{producto.minimo}}</td>
+
+
+
+
+        <td>
+         
+        </td>
+      </tr>
+
+
+    </table>
+  </div>

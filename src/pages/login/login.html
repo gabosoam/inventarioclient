@@ -1,55 +1,50 @@
-
-
 <ion-content padding class="animated fadeIn login auth-page">
-  
+
   <ion-grid>
     <ion-row>
       <ion-col col-0 col-sm-0 col-xs-0 col-md-0 col-lg-4 col-xl-4></ion-col>
       <ion-col col-12 col-sm-12 col-xs-12 col-md-12 col-lg-4 col-xl-4>
-          <div class="login-content">
+        <div class="login-content w3-card-4 w3-white w3-round-large  w3-padding">
 
-              <!-- Logo -->
-              <div padding-horizontal text-center class="animated fadeInDown">
-                <div class="logo"></div>
-                <h2 ion-text class="text-primary">
-                  <strong>Sistema de inventario</strong> 
-                </h2>
-              </div>
-          
-              <!-- Login form -->
-              <form (submit)="doLogin()">
-                <ion-item>
-                  <ion-label stacked>
-                    <ion-icon name="md-contact" item-start class="text-primary"></ion-icon>
-                    Nombre de usuario
-                  </ion-label>
-                  <ion-input type="text" [(ngModel)]="account.nombre" name="email"></ion-input>
-                </ion-item>
-          
-                <ion-item>
-                  <ion-label stacked>
-                    <ion-icon name="lock" item-start class="text-primary"></ion-icon>
-                    Contraseña
-                  </ion-label>
-                  <ion-input type="password" [(ngModel)]="account.contrasena" name="password"></ion-input>
-                </ion-item>
-              </form>
-          
-             
-              <div><br>
-                <button ion-button icon-start block color="dark" tappable (click)="doLogin()">
-                  <ion-icon name="log-in"></ion-icon>
-                  Iniciar sesión
-                </button>
-          
-               
-           
-          
-              </div>
-          
-          
-          
-            </div>
+          <!-- Logo -->
+          <div padding-horizontal text-center class="animated fadeInDown">
+            <!-- <img src="../assets/img/logo.jpg" alt=""> -->
+            <br>
+            <br>
+            <h2 ion-text class="text-primary">
+              <strong>Sistema de inventario HERAS</strong>
+            </h2>
+          </div>
+          <br>
+          <br>
+          <form class="w3-container" (submit)="doLogin()">
+
+            <label class="w3-text-blue">
+              <b>Nombre de usuario</b>
+            </label>
+            <input autofocus placeholder="Ingrese su nombre de usuario" [(ngModel)]="account.nombre" name="email" class="w3-input w3-border w3-large w3-round"
+              type="text">
+            <br>
+            <label class="w3-text-blue">
+              <b>Contraseña</b>
+            </label>
+            <input placeholder="Ingrese su contraseña " [(ngModel)]="account.contrasena" name="password" class="w3-input w3-border w3-large w3-round"
+              type="password">
+            <br>
+            <button class="w3-btn w3-blue w3-round w3-large">Iniciar sesión</button>
+
+            <br>
+            <br>
+
+          </form>
+
+
+
+
+
+
+
+        </div>
       </ion-col>
       <ion-col col-0 col-sm-0 col-xs-0 col-md-0 col-lg-4 col-xl-4></ion-col>
     </ion-row>
@@ -92,5 +87,5 @@
       </ion-col>
     </ion-row>
   </ion-grid> -->
-  
+
 </ion-content>
