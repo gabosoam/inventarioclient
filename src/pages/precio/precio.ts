@@ -82,7 +82,7 @@ export class PrecioPage {
     this.checked = true;
     this.id = producto.id;
     this.producto = producto.producto;
-    this.unidad = producto.unidad;
+    this.unidad = producto.unidad.id;
     this.precio = producto.precio;
     this.tamano = producto.tamano;
   }

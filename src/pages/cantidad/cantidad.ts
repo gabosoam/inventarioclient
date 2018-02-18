@@ -73,6 +73,11 @@ export class CantidadPage {
     seq.subscribe((res) => {
      
       this.items = res;
+
+      this.formCodigo.setValue({
+        unidad: this.items[0].tamano,
+        cantidad: '1',
+      })
  
     })
   }

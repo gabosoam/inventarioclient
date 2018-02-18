@@ -147,6 +147,17 @@ export class SearchPage {
 
       } else {
         this.form.reset();
+        this.form.setValue({
+          codigo: this.form2.value.name,
+          nombre: '',
+          marca: '',
+          categoria: '',
+          precio: 0,
+          stock: 0,
+          minimo: 1,
+          unidad: '',
+          estado: 1,
+        })
         this.validador = false;
       }
     }, err => {

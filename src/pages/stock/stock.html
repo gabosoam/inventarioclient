@@ -10,7 +10,7 @@
           <label class="w3-text-blue">
               <b>Unidad</b>
             </label>
-            <select [(ngModel)]="unidad" class="w3-select w3-border w3-round w3-white" name="option" formControlName="unidad">
+            <select [(ngModel)]="unidad" class="w3-select w3-border w3-round-large w3-white w3-large" name="option" formControlName="unidad">
               <option value="" disabled selected="true">Elige una opción</option>
       
               <option *ngFor="let item of items" value={{item.tamano}}>{{item.unidad.nombre}}</option>
@@ -25,7 +25,7 @@
           <label class="w3-text-blue">
               <b>Cantidad</b>
             </label>
-            <input class="w3-input w3-border w3-round" placeholder="Cantidad" autofocus formControlName="cantidad" type="number">
+            <input ng-focus="isFocused" class="w3-input w3-border w3-round-large w3-large" placeholder="Cantidad" autofocus formControlName="cantidad" type="number">
       
       
       </div>

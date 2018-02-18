@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Item } from '../../models/item';
 
 import { Api } from '../../providers/api/api';
+import {User  } from '../../providers/user/user';
 
 @Injectable()
 export class Items {
@@ -17,7 +18,7 @@ export class Items {
   };
 
 
-  constructor(public api: Api) {
+  constructor(public api: Api, public usuario: User) {
     let items = [
       {
         "name": "Burt Bear",
@@ -242,7 +243,9 @@ precioCero(){
   }
 
   crearFactura() {
-    let seq = this.api.post('factura', null).share();
+
+
+    let seq = this.api.post('factura', {usuario: this.usuario._user.id.nombre}).share();
 
     seq.subscribe((res: any) => {
       this.ingfactura(res);

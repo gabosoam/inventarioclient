@@ -80,6 +80,12 @@
             </label>
             <button (click)="print()" class="w3-blue w3-round-large w3-button ">Imprimir</button>
           </div>
+          <div class="w3-col s12 m4 l4">
+            <label class="w3-text-blue">
+              <b>Acciones</b>
+            </label>
+            <button (click)="crearProducto()" class="w3-blue w3-round-large w3-button ">Nuevo producto</button>
+          </div>
         </div>
 
 
@@ -99,7 +105,7 @@
       <div class="w3-padding">
         <h3>{{resultado}}</h3>
       </div>
-      <table class="w3-table w3-bordered w3-large">
+      <table  class="w3-table w3-bordered w3-large">
 
         <tr class="w3-dark-gray">
 
@@ -172,7 +178,7 @@
     <div class="w3-padding">
       <h3>{{resultado}}</h3>
     </div>
-    <table class="w3-table " border="1">
+    <table class="w3-table " style="width: 100%"border="1">
 
       <tr class="w3-dark-gray">
 

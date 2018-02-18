@@ -61,6 +61,11 @@ export class StockPage {
     seq.subscribe((res) => {
       console.log(res)
       this.items = res;
+
+      this.formCodigo.setValue({
+        unidad: this.items[0].tamano,
+        cantidad: '',
+      })
     })
   }
 
