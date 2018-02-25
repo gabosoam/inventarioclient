@@ -11,4 +11,5 @@ export const Tab1Root = 'ListMasterPage';
 export const Tab2Root = 'ListMasterPage';
 export const Tab3Root = 'SearchPage';
 export const Tab4Root = 'SettingsPage';
+export const Tab5Root = 'HistorialPage';
 

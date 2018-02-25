@@ -1,0 +1,139 @@
+<ion-content>
+  <div class="w3-container w3-blue">
+    <h2>Historial</h2>
+  </div>
+
+  <div class="w3-container w3-light-gray">
+    <div class="w3-row">
+
+
+      <div class="w3-col w3-padding s12 m4 l4">
+        <!-- <button class="" ion-button (click)="crearProducto()">Crear un producto</button> -->
+        <!-- <button class="" ion-button (click)="todosProductos()">Todos los productos</button> -->
+        <!-- <button class="" ion-button color="danger" (click)="cargarCero()">Por acabarse</button> -->
+        <label class="w3-text-blue">
+          <b>Filtros rápidos</b>
+        </label>
+        <select class="w3-select w3-large w3-round-large" [(ngModel)]="filtro" (change)="filtrar()" name="option">
+          <option value="" selected>Selecciona un filtro...</option>
+          <option value="1">Hoy</option>
+          <option value="2">Esta semana</option>
+          <option value="3">Este mes</option>
+          <option value="4">Todo!</option>
+        </select>
+        <h3>Mostrando: {{estado}}</h3>
+      </div>
+      <div class="w3-col s12 m4 l4">
+          <label class="w3-text-blue">
+            <b>Acciones</b><br><br>
+          </label>
+          <button (click)="print()" class="w3-blue w3-round-large w3-large w3-button ">Imprimir</button>
+        </div>
+
+      <div class="w3-responsive">
+
+        <div class="w3-padding">
+          <h3>{{resultado}}</h3>
+        </div>
+
+      </div>
+
+
+    </div>
+
+
+
+
+  </div>
+
+  <table class="w3-table w3-bordered w3-large">
+
+    <tr class="w3-dark-gray">
+
+      <th>Número</th>
+      <th>Tipo</th>
+      <th>Fecha</th>
+      <th>Hora</th>
+      <th>Realizado por</th>
+      <th>Total</th>
+
+
+
+      <th>Acciones</th>
+    </tr>
+    <tr *ngFor="let factura of facturas">
+      <td>{{factura.id}}</td>
+      <td>{{factura.cliente}}</td>
+      <td>{{factura.fecha}}</td>
+      <td>{{factura.hora}}</td>
+      <td>{{factura.usuario}}</td>
+      <td>${{factura.total}}</td>
+      <td>
+
+        <button ion-button small icon-only color="danger" (click)="desactivarItem(factura)" round>
+          <ion-icon name="md-trash"></ion-icon>
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="w3-right">
+        <strong style="text-align: left">
+          <h2>Total:</h2>
+        </strong>
+      </td>
+      <td>
+        <h2>${{total}}</h2>
+      </td>
+    </tr>
+
+
+  </table>
+
+
+</ion-content>
+
+<div id="boleta2">
+  <table border="1" style="width: 100%">
+    <tr class="w3-dark-gray">
+
+      <th>Número</th>
+      <th>Tipo</th>
+      <th>Fecha</th>
+      <th>Hora</th>
+      <th>Realizado por</th>
+      <th>Total</th>
+
+    </tr>
+
+    <tr *ngFor="let factura of facturas">
+      <td>{{factura.id}}</td>
+      <td>{{factura.cliente}}</td>
+      <td>{{factura.fecha}}</td>
+      <td>{{factura.hora}}</td>
+      <td>{{factura.usuario}}</td>
+      <td>${{factura.total}}</td>
+    
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+   
+      <td class="w3-right">
+        <strong style="text-align: left">
+          <h2>Total:</h2>
+        </strong>
+      </td>
+      <td>
+        <h2>${{total}}</h2>
+      </td>
+    </tr>
+
+  </table>
+</div>

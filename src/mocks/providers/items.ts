@@ -133,6 +133,30 @@ export class Items {
     return seq;
   }
 
+  obtenerFacturas() {
+    let seq = this.api.get('factura/todas').share();
+    
+    return seq;
+  }
+
+  obtenerFacturasHoy() {
+    let seq = this.api.get('factura/deldia').share();
+    
+    return seq;
+  }
+
+  obtenerFacturasSemana() {
+    let seq = this.api.get('factura/delasemana').share();
+    
+    return seq;
+  }
+
+  obtenerFacturasMes() {
+    let seq = this.api.get('factura/delmes').share();
+    
+    return seq;
+  }
+
   
 
 obtenerProductosEnCero(){

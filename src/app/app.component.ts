@@ -38,6 +38,7 @@ export class MyApp {
     { title: 'Cards', component: 'CardsPage' },
     { title: 'Content', component: 'ContentPage' },
     { title: 'Login', component: 'LoginPage' },
+    { title: 'Historial', component: 'HistorialPage' },
     { title: 'Signup', component: 'SignupPage' },
     { title: 'Master Detail', component: 'ListMasterPage' },
     { title: 'Menu', component: 'MenuPage' },
